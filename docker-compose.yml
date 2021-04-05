@@ -1,0 +1,31 @@
+version: '3.5'
+services:
+  nginx:
+    image: nginx:1.19.9-alpine
+    container_name: drugstore_nginx
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./frontend/build:/var/www/html
+    ports:
+      - '80:80'
+    command: /bin/sh -c "nginx -g 'daemon off;'"
+    depends_on:
+      - backend
+
+  redis:
+    image: redis
+    container_name: drugstore_redis
+    expose:
+      - 6379
+
+  backend:
+    build: ./backend/
+    container_name: drugstore_backend
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+  frontend:
+    build: ./frontend/
+    container_name: drugstore_frontend
+    volumes:
+      - ./frontend/build:/usr/src/app/dist      

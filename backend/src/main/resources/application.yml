@@ -1,0 +1,15 @@
+micronaut:
+  application:
+    name: backend
+  server:
+    port: 8080
+    thread-selection: auto # https://github.com/micronaut-projects/micronaut-core/issues/3651
+
+redis.uri: redis://localhost
+
+services:
+  minsal:
+    url: ${MINSAL_URL:`https://farmanet.minsal.cl`}
+    path: ${MISNAL_PATH:`/maps/index.php/ws/getLocalesRegion`}
+    param: ${MINSAL_PARAM:`id_region`}
+    value: ${MINSAL_VALUE:7}

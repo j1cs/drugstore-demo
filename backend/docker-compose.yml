@@ -1,0 +1,12 @@
+version: '3.5'
+services:
+  pensioner:
+    build: .
+    ports:
+      - '8080:8080'
+      - '5005:5005'
+    container_name: 'pensioner'
+    environment:
+      - MICRONAUT_ENVIRONMENTS=dev
+      - _JAVA_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      - READ_TIMEOUT='20s'
