@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import java.io.IOException;
 
+/**
+ * Deserializer for normalize some coordinates. The source sent coordinates like -70-000 or -30,000. super bad.
+ */
 public class CoorsDeserializer extends JsonDeserializer<Double> {
     @Override
     public Double deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
