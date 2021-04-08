@@ -4,30 +4,102 @@ import io.reactivex.Flowable;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Singleton;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+
+/**
+ * Service layer abstraction from data.
+ *
+ * @author Juan Cuzmar
+ * @version 1.0
+ */
 @Slf4j
 @Singleton
 public class StoreService {
 
     private final PharmacyClient pharmacyClient;
 
+    /**
+     * Inject dependencies.
+     *
+     * @param pharmacyClient Restful client abstraction layer
+     */
     public StoreService(PharmacyClient pharmacyClient) {
         this.pharmacyClient = pharmacyClient;
     }
 
+    /**
+     * Service returns a list of pharmacies
+     *
+     * @return @{link List} a list of all stores
+     */
     public Flowable<List<Store>> all() {
-        Flowable<List<Pharmacy>> listFlowable = this.pharmacyClient.retrieve();
-        return listFlowable
-                .doOnError(throwable -> log.error(throwable.getLocalizedMessage()))
-                .flatMap(pharmacies ->
-                        Flowable.just(pharmacies.stream()
-                                .map(pharmacy -> Store.builder().borough(pharmacy.getBoroughFk()).build())
+        Flowable<Pharmacy[]> flowable = this.pharmacyClient.retrieve();
+        return flowable
+                .switchMap(pharmacies ->
+                        Flowable.just(Arrays.stream(pharmacies)
+                                .map(pharmacyStoreMapping)
                                 .collect(Collectors.toList())
                         )
-                );
+                ).doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
+    }
+
+    /**
+     * Service filter by borough name and returns a list of drugstore
+     *
+     * @param borough string to filter
+     * @return @{link List} a list of all stores filtered by commune name
+     */
+    public Flowable<List<Store>> findByBorough(String borough) {
+        Flowable<Pharmacy[]> flowable = this.pharmacyClient.retrieve();
+        return flowable
+                .switchMap(pharmacies ->
+                        Flowable.just(Arrays.stream(pharmacies)
+                                .filter(pharmacy -> pharmacy.getBoroughName().equalsIgnoreCase(borough))
+                                .map(pharmacyStoreMapping)
+                                .collect(Collectors.toList())
+                        )
+                ).doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
+    }
+
+    /**
+     * Service filter by store name and returns a list of drugstore
+     *
+     * @param name string to filter
+     * @return @{link List} a list of all stores filtered by store name
+     */
+    public Flowable<List<Store>> findByName(String name) {
+        Flowable<Pharmacy[]> flowable = this.pharmacyClient.retrieve();
+        return flowable
+                .switchMap(pharmacies ->
+                        Flowable.just(Arrays.stream(pharmacies)
+                                .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name))
+                                .map(pharmacyStoreMapping)
+                                .collect(Collectors.toList())
+                        )
+                ).doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
+    }
+
+    /**
+     * Service filter by store and commune name that finally returns a list of drugstore
+     *
+     * @param borough string to filter
+     * @param name    string to filter
+     * @return @{link List} a list of all stores filtered by commune and store name
+     */
+    public Flowable<List<Store>> findByBoroughAndName(String borough, String name) {
+        Flowable<Pharmacy[]> flowable = this.pharmacyClient.retrieve();
+        return flowable
+                .switchMap(pharmacies ->
+                        Flowable.just(Arrays.stream(pharmacies)
+                                .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name) && pharmacy.getBoroughName().equalsIgnoreCase(borough))
+                                .map(pharmacyStoreMapping)
+                                .collect(Collectors.toList())
+                        )
+                ).doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
     }
 
     /**

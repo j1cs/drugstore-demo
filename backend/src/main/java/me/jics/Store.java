@@ -6,7 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -14,14 +15,14 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @Introspected
 public class Store {
-    private LocalDateTime date;
+    private LocalDate date;
     private String id;
     private String name;
     private String communeName;
     private String location;
     private String address;
-    private LocalDateTime openingHours;
-    private LocalDateTime closingHours;
+    private LocalTime openingHours;
+    private LocalTime closingHours;
     private String phone;
     private Double latitude;
     private Double longitude;
