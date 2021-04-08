@@ -23,6 +23,7 @@ public class StoreController {
 
     /**
      * Injected dependencies.
+     *
      * @param service StoreService layer
      */
     public StoreController(StoreService service) {
@@ -36,7 +37,7 @@ public class StoreController {
      * @return @{link List} list with all stores
      */
     @Get(uri = "/all")
-    public Flowable<List<Store>> getAll() {
+    public Flowable<Store> getAll() {
         return this.service.all();
     }
 
@@ -47,7 +48,7 @@ public class StoreController {
      * @return @{link List} list with all stores filtered
      */
     @Get(uri = "/borough/{borough}")
-    public Flowable<List<Store>> getByBorough(@NotNull @PathVariable("borough") String borough) {
+    public Flowable<Store> getByBorough(@NotNull @PathVariable("borough") String borough) {
         return this.service.findByBorough(borough);
     }
 
@@ -58,7 +59,7 @@ public class StoreController {
      * @return @{link List} lists with all stores filtered
      */
     @Get(uri = "/name/{name}")
-    public Flowable<List<Store>> getByName(@NotNull @PathVariable("name") String name) {
+    public Flowable<Store> getByName(@NotNull @PathVariable("name") String name) {
         return this.service.findByName(name);
     }
 
@@ -70,8 +71,8 @@ public class StoreController {
      * @return @{link List} list with all stores filtered
      */
     @Get(uri = "/{borough}/{name}")
-    public Flowable<List<Store>> getByBoroughAndName(@NotNull @PathVariable("borough") String borough,
-                                                     @NotNull @PathVariable("name") String name) {
+    public Flowable<Store> getByBoroughAndName(@NotNull @PathVariable("borough") String borough,
+                                               @NotNull @PathVariable("name") String name) {
         return this.service.findByBoroughAndName(borough, name);
     }
 }

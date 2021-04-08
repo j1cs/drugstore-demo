@@ -3,11 +3,14 @@ package me.jics;
 import io.micronaut.runtime.Micronaut;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 
 @OpenAPIDefinition(
     info = @Info(
             title = "backend",
-            version = "0.0"
+            version = "1.0",
+            description = "Demo api to show drugstore from RM Chile",
+            license = @License(name = "MIT")
     )
 )
 public class Application {

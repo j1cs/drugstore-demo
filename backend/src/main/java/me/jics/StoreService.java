@@ -1,12 +1,14 @@
 package me.jics;
 
 import io.reactivex.Flowable;
+import io.reactivex.functions.Function;
 import lombok.extern.slf4j.Slf4j;
+import org.reactivestreams.Publisher;
 
 import javax.inject.Singleton;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -36,15 +38,12 @@ public class StoreService {
      *
      * @return @{link List} a list of all stores
      */
-    public Flowable<List<Store>> all() {
-        Flowable<Pharmacy[]> flowable = this.pharmacyClient.retrieve();
+    public Flowable<Store> all() {
+        Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         return flowable
-                .switchMap(pharmacies ->
-                        Flowable.just(Arrays.stream(pharmacies)
-                                .map(pharmacyStoreMapping)
-                                .collect(Collectors.toList())
-                        )
-                ).doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
+                .switchMap(pharmacyPublisherFunction)
+                .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
+
     }
 
     /**
@@ -53,16 +52,12 @@ public class StoreService {
      * @param borough string to filter
      * @return @{link List} a list of all stores filtered by commune name
      */
-    public Flowable<List<Store>> findByBorough(String borough) {
-        Flowable<Pharmacy[]> flowable = this.pharmacyClient.retrieve();
+    public Flowable<Store> findByBorough(String borough) {
+        Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         return flowable
-                .switchMap(pharmacies ->
-                        Flowable.just(Arrays.stream(pharmacies)
-                                .filter(pharmacy -> pharmacy.getBoroughName().equalsIgnoreCase(borough))
-                                .map(pharmacyStoreMapping)
-                                .collect(Collectors.toList())
-                        )
-                ).doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
+                .filter(pharmacy -> pharmacy.getBoroughName().equalsIgnoreCase(borough))
+                .switchMap(pharmacyPublisherFunction)
+                .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
     }
 
     /**
@@ -71,16 +66,12 @@ public class StoreService {
      * @param name string to filter
      * @return @{link List} a list of all stores filtered by store name
      */
-    public Flowable<List<Store>> findByName(String name) {
-        Flowable<Pharmacy[]> flowable = this.pharmacyClient.retrieve();
+    public Flowable<Store> findByName(String name) {
+        Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         return flowable
-                .switchMap(pharmacies ->
-                        Flowable.just(Arrays.stream(pharmacies)
-                                .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name))
-                                .map(pharmacyStoreMapping)
-                                .collect(Collectors.toList())
-                        )
-                ).doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
+                .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name))
+                .switchMap(pharmacyPublisherFunction)
+                .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
     }
 
     /**
@@ -90,22 +81,18 @@ public class StoreService {
      * @param name    string to filter
      * @return @{link List} a list of all stores filtered by commune and store name
      */
-    public Flowable<List<Store>> findByBoroughAndName(String borough, String name) {
-        Flowable<Pharmacy[]> flowable = this.pharmacyClient.retrieve();
+    public Flowable<Store> findByBoroughAndName(String borough, String name) {
+        Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         return flowable
-                .switchMap(pharmacies ->
-                        Flowable.just(Arrays.stream(pharmacies)
-                                .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name) && pharmacy.getBoroughName().equalsIgnoreCase(borough))
-                                .map(pharmacyStoreMapping)
-                                .collect(Collectors.toList())
-                        )
-                ).doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
+                .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name) && pharmacy.getBoroughName().equalsIgnoreCase(borough))
+                .switchMap(pharmacyPublisherFunction)
+                .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
     }
 
     /**
      * Closure to map Pharmacy to Store
      */
-    private final Function<Pharmacy, Store> pharmacyStoreMapping = (Pharmacy pharmacy) -> Store.builder()
+    private final Function<Pharmacy, Publisher<Store>> pharmacyPublisherFunction = (Pharmacy pharmacy) -> Flowable.just(Store.builder()
             .date(pharmacy.getDate())
             .id(pharmacy.getStoreId())
             .name(pharmacy.getStoreName())
@@ -120,5 +107,5 @@ public class StoreService {
             .openingDay(pharmacy.getOperationDay())
             .region(pharmacy.getRegionFk())
             .borough(pharmacy.getBoroughFk())
-            .build();
+            .build());
 }
