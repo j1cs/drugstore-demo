@@ -1,15 +1,12 @@
 package me.jics;
 
+import io.micronaut.cache.annotation.Cacheable;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 
 import javax.inject.Singleton;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 /**
@@ -38,6 +35,7 @@ public class StoreService {
      *
      * @return @{link List} a list of all stores
      */
+    @Cacheable("all")
     public Flowable<Store> all() {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         return flowable
@@ -52,6 +50,7 @@ public class StoreService {
      * @param borough string to filter
      * @return @{link List} a list of all stores filtered by commune name
      */
+    @Cacheable(value = "find-by-borough", parameters = "borough")
     public Flowable<Store> findByBorough(String borough) {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         return flowable
@@ -66,6 +65,7 @@ public class StoreService {
      * @param name string to filter
      * @return @{link List} a list of all stores filtered by store name
      */
+    @Cacheable(value = "find-by-name", parameters = "name")
     public Flowable<Store> findByName(String name) {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         return flowable
@@ -81,6 +81,7 @@ public class StoreService {
      * @param name    string to filter
      * @return @{link List} a list of all stores filtered by commune and store name
      */
+    @Cacheable(value = "find-by-borough-and-Name", parameters = {"borough", "name"})
     public Flowable<Store> findByBoroughAndName(String borough, String name) {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         return flowable

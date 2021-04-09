@@ -13,15 +13,17 @@ services:
       - backend
 
   redis:
-    image: redis
+    image: redis:alpine
     container_name: drugstore_redis
-    expose:
-      - 6379
+    ports:
+      - '6379:6379'
 
   backend:
     build: ./backend/
     container_name: drugstore_backend
-    restart: unless-stopped
+    environment:
+      - MICRONAUT_ENVIRONMENTS=
+      - REDI_URI=drugstore_redis
     ports:
       - '8080:8080'
   frontend:

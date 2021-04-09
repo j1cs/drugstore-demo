@@ -18,8 +18,23 @@ micronaut:
       swagger-ui:
         paths: classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
+  jcache:
+    enabled: false
 
-redis.uri: redis://localhost
+noop-cache.enabled: ${ENABLE_CACHE:true}
+
+redis:
+  uri: redis://${REDI_URI:localhost}
+  caches:
+    all:
+      expire-after-write: 15m
+    find-by-borough:
+      expire-after-write: 15m
+    find-by-name:
+      expire-after-access: 15m
+    find-by-borough-and-Name:
+      expire-after-access: 15m
+  timeout: 5s
 
 services:
   minsal:

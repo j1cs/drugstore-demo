@@ -46,11 +46,6 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>io.micronaut.redis</groupId>
-      <artifactId>micronaut-redis-lettuce</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <scope>runtime</scope>
@@ -95,7 +90,38 @@
       <artifactId>lombok</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>io.micronaut.cache</groupId>
+      <artifactId>micronaut-cache-noop</artifactId>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>prod</id>
+      <dependencies>
+        <dependency>
+          <groupId>io.micronaut.redis</groupId>
+          <artifactId>micronaut-redis-lettuce</artifactId>
+          <scope>compile</scope>
+        </dependency>
+      </dependencies>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+    <profile>
+      <id>dev</id>
+      <dependencies>
+        <dependency>
+          <groupId>io.micronaut.cache</groupId>
+          <artifactId>micronaut-cache-ehcache</artifactId>
+          <scope>compile</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>

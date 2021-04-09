@@ -1,0 +1,11 @@
+ehcache:
+  caches:
+    all:
+      expire-after-write: 15m
+    find-by-borough:
+      expire-after-write: 15m
+    find-by-name:
+      expire-after-access: 15m
+    find-by-borough-and-Name:
+      expire-after-access: 15m
+  timeout: 5s
