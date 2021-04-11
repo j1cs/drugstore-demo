@@ -1,11 +1,11 @@
 version: '3.5'
 services:
-  pensioner:
+  backend:
     build: .
     ports:
       - '8080:8080'
       - '5005:5005'
-    container_name: 'pensioner'
+    container_name: 'backend'
     environment:
       - MICRONAUT_ENVIRONMENTS=dev
       - _JAVA_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005

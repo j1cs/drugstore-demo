@@ -7,7 +7,7 @@ RUN ./mvnw package -Dpackaging=native-image
 
 FROM frolvlad/alpine-glibc:alpine-3.12
 RUN apk update && apk add libstdc++
-COPY --from=builder /home/app/target/pensioner /app/application
+COPY --from=builder /home/app/target/backend /app/application
 
 EXPOSE 8080
 ENTRYPOINT ["/app/application"]
