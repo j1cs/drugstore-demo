@@ -19,7 +19,7 @@ public class Store implements Serializable {
     private LocalDate date;
     private String id;
     private String name;
-    private String communeName;
+    private String boroughName;
     private String location;
     private String address;
     private LocalTime openingHours;

@@ -19,14 +19,14 @@ import java.util.List;
 @Controller("/store")
 public class StoreController {
 
-    private final StoreService service;
+    private final IStoreService service;
 
     /**
      * Injected dependencies.
      *
      * @param service StoreService layer
      */
-    public StoreController(StoreService service) {
+    public StoreController(IStoreService service) {
         this.service = service;
     }
 

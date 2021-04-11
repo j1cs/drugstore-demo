@@ -1,6 +1,6 @@
 applicationType: default
 defaultPackage: me.jics
-testFramework: junit
+testFramework: spock
 sourceLanguage: java
 buildTool: maven
-features: [app-name, cache-ehcache, graalvm, http-client, java, java-application, junit, logback, lombok, maven, mockito, netty-server, openapi, readme, redis-lettuce, shade, yaml]
+features: [app-name, cache-ehcache, graalvm, http-client, java, java-application, logback, lombok, maven, netty-server, openapi, readme, redis-lettuce, shade, spock, yaml]

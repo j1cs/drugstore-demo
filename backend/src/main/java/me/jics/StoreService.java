@@ -17,7 +17,7 @@ import javax.inject.Singleton;
  */
 @Slf4j
 @Singleton
-public class StoreService {
+public class StoreService implements IStoreService {
 
     private final PharmacyClient pharmacyClient;
 
@@ -35,6 +35,7 @@ public class StoreService {
      *
      * @return @{link List} a list of all stores
      */
+    @Override
     @Cacheable("all")
     public Flowable<Store> all() {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
@@ -50,6 +51,7 @@ public class StoreService {
      * @param borough string to filter
      * @return @{link List} a list of all stores filtered by commune name
      */
+    @Override
     @Cacheable(value = "find-by-borough", parameters = "borough")
     public Flowable<Store> findByBorough(String borough) {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
@@ -65,6 +67,7 @@ public class StoreService {
      * @param name string to filter
      * @return @{link List} a list of all stores filtered by store name
      */
+    @Override
     @Cacheable(value = "find-by-name", parameters = "name")
     public Flowable<Store> findByName(String name) {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
@@ -81,6 +84,7 @@ public class StoreService {
      * @param name    string to filter
      * @return @{link List} a list of all stores filtered by commune and store name
      */
+    @Override
     @Cacheable(value = "find-by-borough-and-Name", parameters = {"borough", "name"})
     public Flowable<Store> findByBoroughAndName(String borough, String name) {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
@@ -97,7 +101,7 @@ public class StoreService {
             .date(pharmacy.getDate())
             .id(pharmacy.getStoreId())
             .name(pharmacy.getStoreName())
-            .communeName(pharmacy.getBoroughName())
+            .boroughName(pharmacy.getBoroughName())
             .location(pharmacy.getLocationName())
             .address(pharmacy.getStoreAddress())
             .openingHours(pharmacy.getOpeningHourOperation())
