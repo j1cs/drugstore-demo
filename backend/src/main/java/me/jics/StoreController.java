@@ -7,7 +7,6 @@ import io.reactivex.Flowable;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * Restful API to get all drugstores from RM.

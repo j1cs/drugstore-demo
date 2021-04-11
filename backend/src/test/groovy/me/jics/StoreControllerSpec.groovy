@@ -47,37 +47,47 @@ class StoreControllerSpec extends Specification {
     void "Retrieve All Drugstores Filter By Borough Name"() {
         given:
         Store mockStore = getMockStore()
-        String uri = UriBuilder.of('/borough').path(mockStore.getBoroughName()).build().toString()
+        String uri = UriBuilder.of('/borough').path(boroughName).build().toString()
         when:
         Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET(uri), Store)
         def store = storeFlowable.firstElement().blockingGet()
         then:
         storeService.findByBorough(mockStore.getBoroughName()) >> getMockStores()
-        store.find { it.id = mockStore.getId() }
+        store.getId() == id
+        where:
+        boroughName                | id
+        mockStore.getBoroughName() | mockStore.getId()
+
     }
 
     void "Retrieve All Drugstores Filter By Store Name"() {
         given:
         Store mockStore = getMockStore()
-        String uri = UriBuilder.of('/name').path(mockStore.getName()).build().toString()
+        String uri = UriBuilder.of('/name').path(name).build().toString()
         when:
         Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET(uri), Store)
         def store = storeFlowable.firstElement().blockingGet()
         then:
         storeService.findByName(mockStore.getName()) >> getMockStores()
-        store.find { it.id = mockStore.getId() }
+        store.getId() == id
+        where:
+        name                | id
+        mockStore.getName() | mockStore.getId()
     }
 
     void "Retrieve All Drugstores Filter By Store Name And Borough Name"() {
         given:
         Store mockStore = getMockStore()
-        String uri = UriBuilder.of(mockStore.getBoroughName()).path(mockStore.getName()).build().toString()
+        String uri = UriBuilder.of(boroughName).path(name).build().toString()
         when:
         Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET(uri), Store)
         def store = storeFlowable.firstElement().blockingGet()
         then:
         storeService.findByBoroughAndName(mockStore.getBoroughName(), mockStore.getName()) >> getMockStores()
-        store.find { it.id = mockStore.getId() }
+        store.getId() == id
+        where:
+        boroughName                | name                | id
+        mockStore.getBoroughName() | mockStore.getName() | mockStore.getId()
     }
 
 

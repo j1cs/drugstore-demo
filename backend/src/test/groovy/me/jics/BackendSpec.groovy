@@ -3,6 +3,7 @@ package me.jics
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
+
 import javax.inject.Inject
 
 @MicronautTest
