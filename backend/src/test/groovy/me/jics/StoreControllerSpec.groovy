@@ -41,7 +41,7 @@ class StoreControllerSpec extends Specification {
         def store = storeFlowable.firstElement().blockingGet()
         then:
         storeService.all() >> getMockStores()
-        store.find { it.id = mockStore.getId() }
+        store.find { it.id == mockStore.getId() }
     }
 
     void "Retrieve All Drugstores Filter By Borough Name"() {

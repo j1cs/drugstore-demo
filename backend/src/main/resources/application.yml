@@ -20,6 +20,8 @@ micronaut:
         mapping: /swagger-ui/**
   jcache:
     enabled: false
+jackson:
+  bean-introspection-module: true
 
 noop-cache.enabled: ${ENABLE_CACHE:true}
 

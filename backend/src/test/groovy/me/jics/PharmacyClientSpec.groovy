@@ -1,23 +1,21 @@
 package me.jics
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
-import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
-import io.micronaut.http.HttpResponse
-import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.QueryValue
-import io.micronaut.http.client.HttpClient
+import io.micronaut.http.client.RxStreamingHttpClient
 import io.micronaut.runtime.server.EmbeddedServer
-import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
 
-import javax.inject.Inject
+import java.time.LocalDate
+import java.time.LocalTime
 
 class PharmacyClientSpec extends Specification {
     @AutoCleanup
@@ -30,24 +28,46 @@ class PharmacyClientSpec extends Specification {
 
     @AutoCleanup
     @Shared
-    HttpClient httpClient = applicationContext.createBean(HttpClient, embeddedServer.URL)
+    RxStreamingHttpClient client = applicationContext.createBean(RxStreamingHttpClient, embeddedServer.URL)
 
     void "Fetch all Pharmacies"() {
         given:
         HttpRequest request = HttpRequest.GET('/pharmacies')
         when:
-        HttpResponse<Pharmacy> response = httpClient.toBlocking().exchange(request, Pharmacy)
+        Flowable<Pharmacy> pharmacyFlowable = client.jsonStream(request, Pharmacy)
+        Pharmacy pharmacy = pharmacyFlowable.firstElement().blockingGet()
         then:
-        response.code() == HttpStatus.OK.getCode()
+        pharmacy.find { it.storeId == PharmacyMock.getMockPharmacy().getStoreId() }
     }
 
-    @Controller("/")
+    @Controller("/pharmacies")
     @Requires(property = 'pharmacy.mock', value = 'mockPharmacyClient')
     static class PharmacyMock {
 
+        static Pharmacy getMockPharmacy() {
+            return Pharmacy.builder()
+                    .date(LocalDate.now())
+                    .storeId("1")
+                    .storeName("store")
+                    .boroughName("borough")
+                    .locationName("location")
+                    .storeAddress("address")
+                    .openingHourOperation(LocalTime.now())
+                    .closingHourOperation(LocalTime.now())
+                    .storePhone("+56999999999")
+                    .storeLat(0.0)
+                    .storeLng(0.0)
+                    .openingHourOperation(LocalTime.now())
+                    .regionFk(1)
+                    .boroughFk(1)
+                    .build()
+        }
+
         @Get
         String retrieve() {
-            '[{"fecha":"11-04-2021","local_id":"753","local_nombre":"AHUMADA","comuna_nombre":"BUIN","localidad_nombre":"BUIN","local_direccion":"SAN MARTIN 174","funcionamiento_hora_apertura":"09:00 hrs.","funcionamiento_hora_cierre":"22:00 hrs.","local_telefono":"+560226313086","local_lat":"-33.732","local_lng":"-70.735941","funcionamiento_dia":"domingo","fk_region":"7","fk_comuna":"83"}]'
+            ObjectMapper objectMapper = new ObjectMapper()
+            objectMapper.registerModule(new JavaTimeModule());
+            return objectMapper.writeValueAsString(List.of(getMockPharmacy()))
         }
 
     }
