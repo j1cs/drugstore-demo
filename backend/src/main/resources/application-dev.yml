@@ -8,4 +8,3 @@ ehcache:
       expire-after-access: 15m
     find-by-borough-and-Name:
       expire-after-access: 15m
-  timeout: 5s

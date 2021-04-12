@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -16,7 +17,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Introspected
-public class Store {
+public class Store implements Serializable {
     private LocalDate date;
     private String id;
     private String name;

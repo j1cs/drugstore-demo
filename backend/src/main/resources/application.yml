@@ -23,7 +23,7 @@ micronaut:
 jackson:
   bean-introspection-module: true
 
-noop-cache.enabled: ${ENABLE_CACHE:true}
+noop-cache.enabled: ${ENABLE_CACHE:false}
 
 redis:
   uri: redis://${REDI_URI:localhost}
