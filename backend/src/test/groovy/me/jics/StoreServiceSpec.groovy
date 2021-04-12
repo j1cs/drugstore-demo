@@ -38,6 +38,7 @@ class StoreServiceSpec extends Specification {
         then:
         client.retrieve() >> getMockPharmacies()
         store.getId() == id
+        store.getBoroughName() == boroughName
         where:
         boroughName                   | id
         mockPharmacy.getBoroughName() | mockPharmacy.getStoreId()
@@ -52,6 +53,7 @@ class StoreServiceSpec extends Specification {
         then:
         client.retrieve() >> getMockPharmacies()
         store.getId() == id
+        store.getName() == name
         where:
         name                        | id
         mockPharmacy.getStoreName() | mockPharmacy.getStoreId()
@@ -67,6 +69,8 @@ class StoreServiceSpec extends Specification {
         then:
         client.retrieve() >> getMockPharmacies()
         store.getId() == id
+        store.getBoroughName() == boroughName
+        store.getName() == name
         where:
         boroughName                   | name                        | id
         mockPharmacy.getBoroughName() | mockPharmacy.getStoreName() | mockPharmacy.getStoreId()

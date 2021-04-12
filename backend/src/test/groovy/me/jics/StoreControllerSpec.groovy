@@ -5,7 +5,6 @@ import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.RxStreamingHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.uri.UriBuilder
-import io.micronaut.runtime.server.EmbeddedServer
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
@@ -21,10 +20,6 @@ import java.time.LocalTime
 class StoreControllerSpec extends Specification {
 
     @Shared
-    @Inject
-    EmbeddedServer embeddedServer
-
-    @Shared
     @AutoCleanup
     @Inject
     @Client("/store")
@@ -38,7 +33,7 @@ class StoreControllerSpec extends Specification {
         Store mockStore = getMockStore()
         when:
         Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET('/all'), Store)
-        def store = storeFlowable.firstElement().blockingGet()
+        Store store = storeFlowable.firstElement().blockingGet()
         then:
         storeService.all() >> getMockStores()
         store.find { it.id == mockStore.getId() }
@@ -50,9 +45,9 @@ class StoreControllerSpec extends Specification {
         String uri = UriBuilder.of('/borough').path(boroughName).build().toString()
         when:
         Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET(uri), Store)
-        def store = storeFlowable.firstElement().blockingGet()
+        Store store = storeFlowable.firstElement().blockingGet()
         then:
-        storeService.findByBorough(mockStore.getBoroughName()) >> getMockStores()
+        storeService.findByBorough(boroughName) >> getMockStores()
         store.getId() == id
         where:
         boroughName                | id
@@ -66,9 +61,9 @@ class StoreControllerSpec extends Specification {
         String uri = UriBuilder.of('/name').path(name).build().toString()
         when:
         Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET(uri), Store)
-        def store = storeFlowable.firstElement().blockingGet()
+        Store store = storeFlowable.firstElement().blockingGet()
         then:
-        storeService.findByName(mockStore.getName()) >> getMockStores()
+        storeService.findByName(name) >> getMockStores()
         store.getId() == id
         where:
         name                | id
@@ -81,9 +76,9 @@ class StoreControllerSpec extends Specification {
         String uri = UriBuilder.of(boroughName).path(name).build().toString()
         when:
         Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET(uri), Store)
-        def store = storeFlowable.firstElement().blockingGet()
+        Store store = storeFlowable.firstElement().blockingGet()
         then:
-        storeService.findByBoroughAndName(mockStore.getBoroughName(), mockStore.getName()) >> getMockStores()
+        storeService.findByBoroughAndName(boroughName, name) >> getMockStores()
         store.getId() == id
         where:
         boroughName                | name                | id
