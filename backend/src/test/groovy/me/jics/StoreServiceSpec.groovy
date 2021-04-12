@@ -23,7 +23,7 @@ class StoreServiceSpec extends Specification {
         Pharmacy mockPharmacy = getMockPharmacy()
         when:
         Flowable<Store> storeFlowable = service.all()
-        def store = storeFlowable.firstElement().blockingGet()
+        Store store = storeFlowable.firstElement().blockingGet()
         then:
         client.retrieve() >> getMockPharmacies()
         store.find { it.id == mockPharmacy.getStoreId() }
@@ -34,7 +34,7 @@ class StoreServiceSpec extends Specification {
         Pharmacy mockPharmacy = getMockPharmacy()
         when:
         Flowable<Store> storeFlowable = service.findByBorough(boroughName)
-        def store = storeFlowable.firstElement().blockingGet()
+        Store store = storeFlowable.firstElement().blockingGet()
         then:
         client.retrieve() >> getMockPharmacies()
         store.getId() == id
@@ -48,7 +48,7 @@ class StoreServiceSpec extends Specification {
         Pharmacy mockPharmacy = getMockPharmacy()
         when:
         Flowable<Store> storeFlowable = service.findByName(name)
-        def store = storeFlowable.firstElement().blockingGet()
+        Store store = storeFlowable.firstElement().blockingGet()
         then:
         client.retrieve() >> getMockPharmacies()
         store.getId() == id
@@ -63,7 +63,7 @@ class StoreServiceSpec extends Specification {
         Pharmacy mockPharmacy = getMockPharmacy()
         when:
         Flowable<Store> storeFlowable = service.findByBoroughAndName(boroughName, name)
-        def store = storeFlowable.firstElement().blockingGet()
+        Store store = storeFlowable.firstElement().blockingGet()
         then:
         client.retrieve() >> getMockPharmacies()
         store.getId() == id

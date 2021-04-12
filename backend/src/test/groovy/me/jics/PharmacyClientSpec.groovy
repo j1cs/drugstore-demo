@@ -1,51 +1,46 @@
 package me.jics
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
-import io.micronaut.http.HttpRequest
+import io.micronaut.core.io.socket.SocketUtils
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
-import io.micronaut.http.client.RxStreamingHttpClient
 import io.micronaut.runtime.server.EmbeddedServer
 import io.reactivex.Flowable
-import spock.lang.AutoCleanup
-import spock.lang.Shared
 import spock.lang.Specification
 
 import java.time.LocalDate
 import java.time.LocalTime
 
 class PharmacyClientSpec extends Specification {
-    @AutoCleanup
-    @Shared
-    EmbeddedServer embeddedServer = ApplicationContext.run(EmbeddedServer, ['pharmacy.mock': 'mockPharmacyClient'])
 
-    @AutoCleanup
-    @Shared
-    ApplicationContext applicationContext = embeddedServer.applicationContext
-
-    @AutoCleanup
-    @Shared
-    RxStreamingHttpClient client = applicationContext.createBean(RxStreamingHttpClient, embeddedServer.URL)
 
     void "Fetch all Pharmacies"() {
         given:
-        HttpRequest request = HttpRequest.GET('/pharmacies')
+        int mockHttpServerPort = SocketUtils.findAvailableTcpPort()
+        EmbeddedServer mockHttpServer = ApplicationContext.run(EmbeddedServer, [
+                'services.minsal.url'  : "http://localhost:$mockHttpServerPort",
+                'services.minsal.path' : '/pharmacies',
+                'spec.name'            : 'mockPharmacy',
+                'micronaut.server.port': mockHttpServerPort
+        ])
+        PharmacyClient client = mockHttpServer.applicationContext.getBean(PharmacyClient)
         when:
-        Flowable<Pharmacy> pharmacyFlowable = client.jsonStream(request, Pharmacy)
-        Pharmacy pharmacy = pharmacyFlowable.firstElement().blockingGet()
+        Pharmacy pharmacy = client.retrieve().blockingFirst()
         then:
-        pharmacy.find { it.storeId == PharmacyMock.getMockPharmacy().getStoreId() }
+        pharmacy.getStoreId() == '1'
+        cleanup:
+        mockHttpServer.close()
     }
 
-    @Controller("/pharmacies")
-    @Requires(property = 'pharmacy.mock', value = 'mockPharmacyClient')
-    static class PharmacyMock {
 
-        static Pharmacy getMockPharmacy() {
-            return Pharmacy.builder()
+    @Requires(property = 'spec.name', value = 'mockPharmacy')
+    @Controller
+    static class MockPharmacy {
+        @Get("/pharmacies")
+        Flowable<Pharmacy> index() {
+            Flowable.just(Pharmacy.builder()
                     .date(LocalDate.now())
                     .storeId("1")
                     .storeName("store")
@@ -60,15 +55,8 @@ class PharmacyClientSpec extends Specification {
                     .openingHourOperation(LocalTime.now())
                     .regionFk(1)
                     .boroughFk(1)
-                    .build()
+                    .build())
         }
-
-        @Get
-        String retrieve() {
-            ObjectMapper objectMapper = new ObjectMapper()
-            objectMapper.registerModule(new JavaTimeModule());
-            return objectMapper.writeValueAsString(List.of(getMockPharmacy()))
-        }
-
     }
+
 }
