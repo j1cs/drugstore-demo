@@ -31,9 +31,9 @@ public class StoreController {
 
 
     /**
-     * Retrieve all drugstores by region (now is "7" (RM)).
+     * Retrieve all drugstores by region (now is "7" (RM))
      *
-     * @return @{link List} list with all stores
+     * @return Flowable with all stores
      */
     @Get(uri = "/all")
     public Flowable<Store> getAll() {
@@ -43,8 +43,8 @@ public class StoreController {
     /**
      * Retrieve all drugstores by region (now is "7" (RM)) and filtered by borough name
      *
-     * @param borough name from RM.
-     * @return @{link List} list with all stores filtered
+     * @param borough name from RM to filter
+     * @return Flowable with all stores filtered
      */
     @Get(uri = "/borough/{borough}")
     public Flowable<Store> getByBorough(@NotNull @PathVariable("borough") String borough) {
@@ -54,8 +54,8 @@ public class StoreController {
     /**
      * Retrieve all drugstores by region (now is "7" (RM)) and filtered by store name
      *
-     * @param name from the store
-     * @return @{link List} lists with all stores filtered
+     * @param name from the store to filter
+     * @return Flowable with all stores filtered
      */
     @Get(uri = "/name/{name}")
     public Flowable<Store> getByName(@NotNull @PathVariable("name") String name) {
@@ -65,9 +65,9 @@ public class StoreController {
     /**
      * Retrieve all drugstores by region (now is "7" (RM)) and filtered by commune and store name
      *
-     * @param borough name from RM.
-     * @param name    from the store
-     * @return @{link List} list with all stores filtered
+     * @param borough name from RM to filter
+     * @param name from the store to filter
+     * @return Flowable with all stores filtered
      */
     @Get(uri = "/{borough}/{name}")
     public Flowable<Store> getByBoroughAndName(@NotNull @PathVariable("borough") String borough,

@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.info.License;
 
 @OpenAPIDefinition(
     info = @Info(
-            title = "backend",
+            title = "Drugstore from RM API",
             version = "1.0",
             description = "Demo api to show drugstore from RM Chile",
             license = @License(name = "MIT")
