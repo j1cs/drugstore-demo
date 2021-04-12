@@ -37,6 +37,7 @@ public class StoreController {
      */
     @Get(uri = "/all")
     public Flowable<Store> getAll() {
+        log.info("Entering to StoreController.getAll");
         return this.service.all();
     }
 
@@ -48,6 +49,7 @@ public class StoreController {
      */
     @Get(uri = "/borough/{borough}")
     public Flowable<Store> getByBorough(@NotNull @PathVariable("borough") String borough) {
+        log.info("Entering to StoreController.getByBorough with borough:{}", borough);
         return this.service.findByBorough(borough);
     }
 
@@ -59,6 +61,7 @@ public class StoreController {
      */
     @Get(uri = "/name/{name}")
     public Flowable<Store> getByName(@NotNull @PathVariable("name") String name) {
+        log.info("Entering to StoreController.getByName with name:{}", name);
         return this.service.findByName(name);
     }
 
@@ -66,12 +69,13 @@ public class StoreController {
      * Retrieve all drugstores by region (now is "7" (RM)) and filtered by commune and store name
      *
      * @param borough name from RM to filter
-     * @param name from the store to filter
+     * @param name    from the store to filter
      * @return Flowable with all stores filtered
      */
     @Get(uri = "/{borough}/{name}")
     public Flowable<Store> getByBoroughAndName(@NotNull @PathVariable("borough") String borough,
                                                @NotNull @PathVariable("name") String name) {
+        log.info("Entering to StoreController.getByBoroughAndName with borough:{} and name:{}", borough, name);
         return this.service.findByBoroughAndName(borough, name);
     }
 }

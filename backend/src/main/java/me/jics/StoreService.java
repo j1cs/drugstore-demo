@@ -38,9 +38,13 @@ public class StoreService implements IStoreService {
     @Override
     @Cacheable("all")
     public Flowable<Store> all() {
+        log.info("Entering to StoreService.all");
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
+        log.info("Got pharmacies from the client");
         return flowable
                 .switchMap(pharmacyPublisherFunction)
+                .doFinally(() -> log.info("Pharmacy to Store finished"))
+                .doOnComplete(() -> log.info("Pharmacy to Store complete"))
                 .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
 
     }
@@ -54,10 +58,14 @@ public class StoreService implements IStoreService {
     @Override
     @Cacheable(value = "find-by-borough", parameters = "borough")
     public Flowable<Store> findByBorough(String borough) {
+        log.info("Entering to StoreService.findByBorough with borough:{}", borough);
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
+        log.info("Got pharmacies from the client");
         return flowable
                 .filter(pharmacy -> pharmacy.getBoroughName().equalsIgnoreCase(borough))
                 .switchMap(pharmacyPublisherFunction)
+                .doFinally(() -> log.info("Pharmacy to Store finished filtered by borough"))
+                .doOnComplete(() -> log.info("Pharmacy to Store complete filtered by borough"))
                 .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
     }
 
@@ -70,10 +78,14 @@ public class StoreService implements IStoreService {
     @Override
     @Cacheable(value = "find-by-name", parameters = "name")
     public Flowable<Store> findByName(String name) {
+        log.info("Entering to StoreService.findByName with name:{}", name);
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
+        log.info("Got pharmacies from the client");
         return flowable
                 .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name))
                 .switchMap(pharmacyPublisherFunction)
+                .doFinally(() -> log.info("Pharmacy to Store finished filtered by borough"))
+                .doOnComplete(() -> log.info("Pharmacy to Store complete filtered by borough"))
                 .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
     }
 
@@ -87,10 +99,14 @@ public class StoreService implements IStoreService {
     @Override
     @Cacheable(value = "find-by-borough-and-Name", parameters = {"borough", "name"})
     public Flowable<Store> findByBoroughAndName(String borough, String name) {
+        log.info("Entering to StoreService.findByBoroughAndName with borough:{} and name:{}", borough, name);
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
+        log.info("Got pharmacies from the client");
         return flowable
                 .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name) && pharmacy.getBoroughName().equalsIgnoreCase(borough))
                 .switchMap(pharmacyPublisherFunction)
+                .doFinally(() -> log.info("Pharmacy to Store finished filtered by borough and name"))
+                .doOnComplete(() -> log.info("Pharmacy to Store complete filtered by borough and name"))
                 .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
     }
 

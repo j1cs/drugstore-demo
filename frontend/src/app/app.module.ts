@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxsModule } from '@ngxs/store';
 
 import { environment } from '@env/environment';
 import { CoreModule } from '@core';
@@ -27,9 +28,13 @@ import { AppRoutingModule } from './app-routing.module';
     ShellModule,
     HomeModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
+    NgxsModule.forRoot([], {
+      developmentMode: !environment.production
+    })
   ],
   declarations: [AppComponent],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

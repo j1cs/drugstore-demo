@@ -187,7 +187,7 @@
         <configuration>
           <buildArgs combine.children="append">
             <buildArg>-J-Dfile.encoding=UTF-8</buildArg>
-            <buildArg>--initialize-at-build-time=org.codehaus.stax2</buildArg>
+            <buildArg>--report-unsupported-elements-at-runtime</buildArg>
           </buildArgs>
         </configuration>
       </plugin>
