@@ -1,14 +1,17 @@
 package me.jics
 
-
+import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
+import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.RxStreamingHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.uri.UriBuilder
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
+import io.reactivex.Single
 import spock.lang.AutoCleanup
+import spock.lang.Ignore
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -23,7 +26,7 @@ class StoreControllerSpec extends Specification {
     @AutoCleanup
     @Inject
     @Client("/store")
-    RxStreamingHttpClient client
+    RxHttpClient client
 
     @Inject
     IStoreService storeService
@@ -32,11 +35,11 @@ class StoreControllerSpec extends Specification {
         given:
         Store mockStore = getMockStore()
         when:
-        Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET('/all'), Store)
-        Store store = storeFlowable.firstElement().blockingGet()
+        Flowable flowable = client.retrieve(HttpRequest.GET('/all'), Argument.listOf(Store))
+        List<Store> store = flowable.firstElement().toSingle().blockingGet()
         then:
         storeService.all() >> getMockStores()
-        store.find { it.id == mockStore.getId() }
+        store.find { it.id == mockStore.id }
     }
 
     void "Retrieve All Drugstores Filter By Borough Name"() {
@@ -44,11 +47,11 @@ class StoreControllerSpec extends Specification {
         Store mockStore = getMockStore()
         String uri = UriBuilder.of('/borough').path(boroughName).build().toString()
         when:
-        Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET(uri), Store)
-        Store store = storeFlowable.firstElement().blockingGet()
+        Flowable flowable = client.retrieve(HttpRequest.GET(uri), Argument.listOf(Store))
+        List<Store> store = flowable.firstElement().toSingle().blockingGet()
         then:
         storeService.findByBorough(boroughName) >> getMockStores()
-        store.getId() == id
+        store.find { it.id == id }
         where:
         boroughName                | id
         mockStore.getBoroughName() | mockStore.getId()
@@ -60,11 +63,11 @@ class StoreControllerSpec extends Specification {
         Store mockStore = getMockStore()
         String uri = UriBuilder.of('/name').path(name).build().toString()
         when:
-        Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET(uri), Store)
-        Store store = storeFlowable.firstElement().blockingGet()
+        Flowable flowable = client.retrieve(HttpRequest.GET(uri), Argument.listOf(Store))
+        List<Store> store = flowable.firstElement().toSingle().blockingGet()
         then:
         storeService.findByName(name) >> getMockStores()
-        store.getId() == id
+        store.find { it.id == id }
         where:
         name                | id
         mockStore.getName() | mockStore.getId()
@@ -75,11 +78,11 @@ class StoreControllerSpec extends Specification {
         Store mockStore = getMockStore()
         String uri = UriBuilder.of(boroughName).path(name).build().toString()
         when:
-        Flowable<Store> storeFlowable = client.jsonStream(HttpRequest.GET(uri), Store)
-        Store store = storeFlowable.firstElement().blockingGet()
+        Flowable flowable = client.retrieve(HttpRequest.GET(uri), Argument.listOf(Store))
+        List<Store> store = flowable.firstElement().toSingle().blockingGet()
         then:
         storeService.findByBoroughAndName(boroughName, name) >> getMockStores()
-        store.getId() == id
+        store.find { it.id == id }
         where:
         boroughName                | name                | id
         mockStore.getBoroughName() | mockStore.getName() | mockStore.getId()
@@ -87,7 +90,7 @@ class StoreControllerSpec extends Specification {
 
 
     static def getMockStores() {
-        return Flowable.just(getMockStore())
+        return Single.just(getMockStore())
     }
 
     static def getMockStore() {

@@ -3,6 +3,7 @@ package me.jics
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
+import io.reactivex.Single
 import spock.lang.Specification
 
 import javax.inject.Inject
@@ -22,8 +23,8 @@ class StoreServiceSpec extends Specification {
         given:
         Pharmacy mockPharmacy = getMockPharmacy()
         when:
-        Flowable<Store> storeFlowable = service.all()
-        Store store = storeFlowable.firstElement().blockingGet()
+        Single<List<Store>> listSingle = service.all()
+        List<Store> store = listSingle.blockingGet()
         then:
         client.retrieve() >> getMockPharmacies()
         store.find { it.id == mockPharmacy.getStoreId() }
@@ -33,12 +34,11 @@ class StoreServiceSpec extends Specification {
         given:
         Pharmacy mockPharmacy = getMockPharmacy()
         when:
-        Flowable<Store> storeFlowable = service.findByBorough(boroughName)
-        Store store = storeFlowable.firstElement().blockingGet()
+        Single<List<Store>> listSingle = service.findByBorough(boroughName)
+        List<Store> store = listSingle.blockingGet()
         then:
         client.retrieve() >> getMockPharmacies()
-        store.getId() == id
-        store.getBoroughName() == boroughName
+        store.findAll { it.id == id && it.boroughName == boroughName }
         where:
         boroughName                   | id
         mockPharmacy.getBoroughName() | mockPharmacy.getStoreId()
@@ -48,12 +48,11 @@ class StoreServiceSpec extends Specification {
         given:
         Pharmacy mockPharmacy = getMockPharmacy()
         when:
-        Flowable<Store> storeFlowable = service.findByName(name)
-        Store store = storeFlowable.firstElement().blockingGet()
+        Single<List<Store>> listSingle = service.findByName(name)
+        List<Store> store = listSingle.blockingGet()
         then:
         client.retrieve() >> getMockPharmacies()
-        store.getId() == id
-        store.getName() == name
+        store.findAll { it.id == id && it.name == name }
         where:
         name                        | id
         mockPharmacy.getStoreName() | mockPharmacy.getStoreId()
@@ -64,13 +63,11 @@ class StoreServiceSpec extends Specification {
         given:
         Pharmacy mockPharmacy = getMockPharmacy()
         when:
-        Flowable<Store> storeFlowable = service.findByBoroughAndName(boroughName, name)
-        Store store = storeFlowable.firstElement().blockingGet()
+        Single<List<Store>> listSingle = service.findByBoroughAndName(boroughName, name)
+        List<Store> store = listSingle.blockingGet()
         then:
         client.retrieve() >> getMockPharmacies()
-        store.getId() == id
-        store.getBoroughName() == boroughName
-        store.getName() == name
+        store.findAll { it.id == id && it.boroughName == boroughName && it.name == name }
         where:
         boroughName                   | name                        | id
         mockPharmacy.getBoroughName() | mockPharmacy.getStoreName() | mockPharmacy.getStoreId()

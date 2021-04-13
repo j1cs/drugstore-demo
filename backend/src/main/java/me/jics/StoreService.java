@@ -2,11 +2,12 @@ package me.jics;
 
 import io.micronaut.cache.annotation.Cacheable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import io.reactivex.functions.Function;
 import lombok.extern.slf4j.Slf4j;
-import org.reactivestreams.Publisher;
 
 import javax.inject.Singleton;
+import java.util.List;
 
 
 /**
@@ -37,14 +38,14 @@ public class StoreService implements IStoreService {
      */
     @Override
     @Cacheable("all")
-    public Flowable<Store> all() {
+    public Single<List<Store>> all() {
         log.info("Entering to StoreService.all");
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         log.info("Got pharmacies from the client");
         return flowable
-                .switchMap(pharmacyPublisherFunction)
+                .map(pharmacyStoreFunction)
+                .toList()
                 .doFinally(() -> log.info("Pharmacy to Store finished"))
-                .doOnComplete(() -> log.info("Pharmacy to Store complete"))
                 .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
 
     }
@@ -57,15 +58,15 @@ public class StoreService implements IStoreService {
      */
     @Override
     @Cacheable(value = "find-by-borough", parameters = "borough")
-    public Flowable<Store> findByBorough(String borough) {
+    public Single<List<Store>> findByBorough(String borough) {
         log.info("Entering to StoreService.findByBorough with borough:{}", borough);
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         log.info("Got pharmacies from the client");
         return flowable
                 .filter(pharmacy -> pharmacy.getBoroughName().equalsIgnoreCase(borough))
-                .switchMap(pharmacyPublisherFunction)
+                .map(pharmacyStoreFunction)
+                .toList()
                 .doFinally(() -> log.info("Pharmacy to Store finished filtered by borough"))
-                .doOnComplete(() -> log.info("Pharmacy to Store complete filtered by borough"))
                 .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
     }
 
@@ -77,15 +78,15 @@ public class StoreService implements IStoreService {
      */
     @Override
     @Cacheable(value = "find-by-name", parameters = "name")
-    public Flowable<Store> findByName(String name) {
+    public Single<List<Store>> findByName(String name) {
         log.info("Entering to StoreService.findByName with name:{}", name);
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         log.info("Got pharmacies from the client");
         return flowable
                 .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name))
-                .switchMap(pharmacyPublisherFunction)
+                .map(pharmacyStoreFunction)
+                .toList()
                 .doFinally(() -> log.info("Pharmacy to Store finished filtered by borough"))
-                .doOnComplete(() -> log.info("Pharmacy to Store complete filtered by borough"))
                 .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
     }
 
@@ -98,22 +99,22 @@ public class StoreService implements IStoreService {
      */
     @Override
     @Cacheable(value = "find-by-borough-and-Name", parameters = {"borough", "name"})
-    public Flowable<Store> findByBoroughAndName(String borough, String name) {
+    public Single<List<Store>> findByBoroughAndName(String borough, String name) {
         log.info("Entering to StoreService.findByBoroughAndName with borough:{} and name:{}", borough, name);
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         log.info("Got pharmacies from the client");
         return flowable
                 .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name) && pharmacy.getBoroughName().equalsIgnoreCase(borough))
-                .switchMap(pharmacyPublisherFunction)
+                .map(pharmacyStoreFunction)
+                .toList()
                 .doFinally(() -> log.info("Pharmacy to Store finished filtered by borough and name"))
-                .doOnComplete(() -> log.info("Pharmacy to Store complete filtered by borough and name"))
                 .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
     }
 
     /**
      * Closure to map Pharmacy to Store
      */
-    private final Function<Pharmacy, Publisher<Store>> pharmacyPublisherFunction = (Pharmacy pharmacy) -> Flowable.just(Store.builder()
+    private final Function<Pharmacy, Store> pharmacyStoreFunction = (Pharmacy pharmacy) -> Store.builder()
             .date(pharmacy.getDate())
             .id(pharmacy.getStoreId())
             .name(pharmacy.getStoreName())
@@ -128,5 +129,5 @@ public class StoreService implements IStoreService {
             .openingDay(pharmacy.getOperationDay())
             .region(pharmacy.getRegionFk())
             .borough(pharmacy.getBoroughFk())
-            .build());
+            .build();
 }

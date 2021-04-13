@@ -4,9 +4,11 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Restful API to get all drugstores from RM.
@@ -36,7 +38,7 @@ public class StoreController {
      * @return Flowable with all stores
      */
     @Get(uri = "/all")
-    public Flowable<Store> getAll() {
+    public Single<List<Store>> getAll() {
         log.info("Entering to StoreController.getAll");
         return this.service.all();
     }
@@ -48,7 +50,7 @@ public class StoreController {
      * @return Flowable with all stores filtered
      */
     @Get(uri = "/borough/{borough}")
-    public Flowable<Store> getByBorough(@NotNull @PathVariable("borough") String borough) {
+    public Single<List<Store>> getByBorough(@NotNull @PathVariable("borough") String borough) {
         log.info("Entering to StoreController.getByBorough with borough:{}", borough);
         return this.service.findByBorough(borough);
     }
@@ -60,7 +62,7 @@ public class StoreController {
      * @return Flowable with all stores filtered
      */
     @Get(uri = "/name/{name}")
-    public Flowable<Store> getByName(@NotNull @PathVariable("name") String name) {
+    public Single<List<Store>> getByName(@NotNull @PathVariable("name") String name) {
         log.info("Entering to StoreController.getByName with name:{}", name);
         return this.service.findByName(name);
     }
@@ -73,7 +75,7 @@ public class StoreController {
      * @return Flowable with all stores filtered
      */
     @Get(uri = "/{borough}/{name}")
-    public Flowable<Store> getByBoroughAndName(@NotNull @PathVariable("borough") String borough,
+    public Single<List<Store>> getByBoroughAndName(@NotNull @PathVariable("borough") String borough,
                                                @NotNull @PathVariable("name") String name) {
         log.info("Entering to StoreController.getByBoroughAndName with borough:{} and name:{}", borough, name);
         return this.service.findByBoroughAndName(borough, name);

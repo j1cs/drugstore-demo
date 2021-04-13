@@ -1,13 +1,16 @@
 package me.jics;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
+
+import java.util.List;
 
 public interface IStoreService {
-    Flowable<Store> all();
+    Single<List<Store>> all();
 
-    Flowable<Store> findByName(String name);
+    Single<List<Store>> findByName(String name);
 
-    Flowable<Store> findByBorough(String borough);
+    Single<List<Store>> findByBorough(String borough);
 
-    Flowable<Store> findByBoroughAndName(String borough, String name);
+    Single<List<Store>> findByBoroughAndName(String borough, String name);
 }
