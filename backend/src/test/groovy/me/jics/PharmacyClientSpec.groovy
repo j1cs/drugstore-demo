@@ -1,6 +1,5 @@
 package me.jics
 
-
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Requires
 import io.micronaut.core.io.socket.SocketUtils
@@ -8,37 +7,44 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.runtime.server.EmbeddedServer
 import io.reactivex.Flowable
+import spock.lang.AutoCleanup
+import spock.lang.Shared
 import spock.lang.Specification
+import spock.lang.Subject
 
 import java.time.LocalDate
 import java.time.LocalTime
 
 class PharmacyClientSpec extends Specification {
 
+    @Shared
+    int port = SocketUtils.findAvailableTcpPort()
+
+    @AutoCleanup
+    @Shared
+    EmbeddedServer server = ApplicationContext.run(EmbeddedServer, [
+            'services.minsal.url'  : "http://localhost:$port",
+            'services.minsal.path' : '/pharmacies',
+            'spec.name'            : 'mockPharmacy',
+            'micronaut.server.port': port
+    ]) as EmbeddedServer
+
+    @Shared
+    @Subject
+    PharmacyClient client = server.applicationContext.getBean(PharmacyClient);
 
     void "Fetch all Pharmacies"() {
-        given:
-        int mockHttpServerPort = SocketUtils.findAvailableTcpPort()
-        EmbeddedServer mockHttpServer = ApplicationContext.run(EmbeddedServer, [
-                'services.minsal.url'  : "http://localhost:$mockHttpServerPort",
-                'services.minsal.path' : '/pharmacies',
-                'spec.name'            : 'mockPharmacy',
-                'micronaut.server.port': mockHttpServerPort
-        ])
-        PharmacyClient client = mockHttpServer.applicationContext.getBean(PharmacyClient)
         when:
         Pharmacy pharmacy = client.retrieve().blockingFirst()
         then:
         pharmacy.getStoreId() == '1'
-        cleanup:
-        mockHttpServer.close()
     }
 
 
     @Requires(property = 'spec.name', value = 'mockPharmacy')
-    @Controller
+    @Controller("/pharmacies")
     static class MockPharmacy {
-        @Get("/pharmacies")
+        @Get
         Flowable<Pharmacy> index() {
             Flowable.just(Pharmacy.builder()
                     .date(LocalDate.now())
