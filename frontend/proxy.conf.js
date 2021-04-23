@@ -10,9 +10,9 @@ const proxyConfig = [
   {
     context: '/api',
     pathRewrite: { '^/api': '' },
-    target: 'https://api.chucknorris.io',
+    target: 'http://localhost:8080',
     changeOrigin: true,
-    secure: false
+    secure: false,
   }
 ];
 

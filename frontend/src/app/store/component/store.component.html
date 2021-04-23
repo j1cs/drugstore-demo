@@ -1,0 +1,38 @@
+<div class="box">
+  <div class="container">
+
+    <div class="row justify-content-center align-self-center">
+      <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="form-signin">
+        <h1 class="h3 mb-3 font-weight-normal">Buscar Farmacia</h1>
+        <label for="commune" class="sr-only">Comuna</label>
+        <input formControlName="commune" type="text" id="commune" class="form-control" placeholder="Comuna" required="" autofocus="">
+        <label for="name" class="sr-only">Nombre de Local</label>
+        <input formControlName="name" type="text" id="name" class="form-control" placeholder="Nombre de Local" required="">
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!searchForm.valid">Buscar</button>
+      </form>
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-4 col-sm-6 col-12" *ngFor="let store of stores$ | async">
+        <div class="box-part text-justify">
+          <div>Nombre Local: {{ store.name | lowercase | titlecase }}</div>
+          <div>Dirección: {{ store.address | lowercase | titlecase }}</div>
+          <div>Teléfono: {{ store.phone }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="right" *ngIf="stores$">
+
+  <h3>Stores</h3>
+  <ul>
+    <li  *ngFor="let store of stores$ | async">
+      {{ store.name }}
+    </li>
+  </ul>
+
+</div>

@@ -6,11 +6,11 @@ describe('AboutComponent', () => {
   let component: AboutComponent;
   let fixture: ComponentFixture<AboutComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
+  beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [AboutComponent],
-      }).compileComponents();
+      })
+        .compileComponents();
     })
   );
 
