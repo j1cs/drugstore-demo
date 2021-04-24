@@ -1,4 +1,4 @@
-export interface Form {
+export interface Search {
   borough: string;
   name: string;
 }

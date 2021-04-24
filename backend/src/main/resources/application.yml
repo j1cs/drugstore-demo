@@ -34,7 +34,7 @@ redis:
       expire-after-write: 15m
     find-by-name:
       expire-after-access: 15m
-    find-by-borough-and-Name:
+    find-by-borough-and-name:
       expire-after-access: 15m
   timeout: 5s
 

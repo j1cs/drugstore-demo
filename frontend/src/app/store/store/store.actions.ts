@@ -1,5 +1,5 @@
 import { Store } from '@app/store/service/store';
-import { Form } from '@app/store/service/form';
+import { Search } from '@app/store/service/search';
 
 export class GetStores {
   static readonly type = '[STORE] Get';
@@ -7,9 +7,6 @@ export class GetStores {
 
 export class GetStoresByBoroughAndName {
   static readonly type = '[STORE] Get by Borough and Name';
-
-  constructor(public payload: Form) {
-  }
 }
 
 

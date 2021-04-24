@@ -7,7 +7,8 @@ import { StoreComponent } from '@app/store/component/store.component';
 import { NgxsModule } from '@ngxs/store';
 import { StoreState } from '@app/store/store/store.state';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 @NgModule({
@@ -16,8 +17,9 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
     TranslateModule,
     StoreRoutingModule,
     ReactiveFormsModule,
-    NgxsLoggerPluginModule,
-    NgxsModule.forFeature([StoreState])
+    NgxsModule.forFeature([StoreState]),
+    NgxsFormPluginModule,
+    GoogleMapsModule
   ],
   declarations: [StoreComponent]
 })

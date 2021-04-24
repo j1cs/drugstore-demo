@@ -98,7 +98,7 @@ public class StoreService implements IStoreService {
      * @return @{link List} a list of all stores filtered by commune and store name
      */
     @Override
-    @Cacheable(value = "find-by-borough-and-Name", parameters = {"borough", "name"})
+    @Cacheable(value = "find-by-borough-and-name", parameters = {"borough", "name"})
     public Single<List<Store>> findByBoroughAndName(String borough, String name) {
         log.info("Entering to StoreService.findByBoroughAndName with borough:{} and name:{}", borough, name);
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();

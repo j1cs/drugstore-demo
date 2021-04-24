@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Store, Select } from '@ngxs/store';
 import { Store as StoreModel } from '@app/store/service/store';
 import { StoreState } from '@app/store/store/store.state';
-import { GetStores } from '@app/store/store/store.actions';
+import { GetStores, GetStoresByBoroughAndName } from '@app/store/store/store.actions';
 
 @Component({
   selector: 'app-store',
@@ -15,16 +15,20 @@ import { GetStores } from '@app/store/store/store.actions';
 export class StoreComponent implements OnInit {
   @Select(StoreState.getStores) stores$: Observable<StoreModel>;
 
-  searchForm = new FormGroup({
-    borough: new FormControl('recoleta'),
-    name: new FormControl('ahumada'),
+  searchForm = this.form.group({
+    borough: ['', Validators.required],
+    name: ['', Validators.required],
   });
-  constructor(private store: Store) {
+  latitude = -33.4586361;
+  longitude = -70.6419717;
+  mapType = 'roadmap';
+
+  constructor(private store: Store, private form: FormBuilder) {
   }
 
   ngOnInit(): void {
   }
   onSubmit(): void {
-    //
+    this.store.dispatch(new GetStoresByBoroughAndName());
   }
 }

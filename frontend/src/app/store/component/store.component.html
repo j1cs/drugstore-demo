@@ -2,7 +2,7 @@
   <div class="container">
 
     <div class="row justify-content-center align-self-center">
-      <form [formGroup]="searchForm" ngxsForm="stores.form" (ngSubmit)="onSubmit()" class="form-signin">
+      <form [formGroup]="searchForm" ngxsFormClearOnDestroy="true" ngxsForm="stores.form" (ngSubmit)="onSubmit()" class="form-signing">
         <h1 class="h3 mb-3 font-weight-normal">Buscar Farmacia</h1>
         <label for="borough" class="sr-only">Comuna</label>
         <input formControlName="borough" type="text" id="borough" class="form-control" placeholder="Comuna" required="" autofocus="">
@@ -12,7 +12,7 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!searchForm.valid">Buscar</button>
       </form>
     </div>
-
+    <google-map></google-map>
     <div class="row">
 
       <div class="col-md-4 col-sm-6 col-12" *ngFor="let store of stores$ | async">
@@ -20,6 +20,7 @@
           <div>Nombre Local: {{ store.name | lowercase | titlecase }}</div>
           <div>Dirección: {{ store.address | lowercase | titlecase }}</div>
           <div>Teléfono: {{ store.phone }}</div>
+
         </div>
       </div>
     </div>

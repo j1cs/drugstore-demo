@@ -36,7 +36,7 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
     }),
     NgxsFormPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot()
+    NgxsLoggerPluginModule.forRoot(),
   ],
   declarations: [AppComponent],
   providers: [],
