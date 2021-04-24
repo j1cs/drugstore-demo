@@ -4,15 +4,21 @@ import { GetStores, AddStore, RemoveStore, GetStoresByBoroughAndName } from '@ap
 import { Injectable } from '@angular/core';
 import { StoreService } from '@app/store/service/store.service';
 import { tap } from 'rxjs/operators';
+import { Form } from '@app/store/service/form';
 
 export class StoreStateModel {
   stores: Store[];
+  form: Form;
 }
 
 @State<StoreStateModel>({
   name: 'stores',
   defaults: {
-    stores: []
+    stores: [],
+    form: {
+      borough: '',
+      name: ''
+    }
   }
 })
 @Injectable()
@@ -24,7 +30,8 @@ export class StoreState {
   }
 
 
-  constructor(private storeService: StoreService) {  }
+  constructor(private storeService: StoreService) {
+  }
 
   @Action(GetStores)
   get({ getState, setState }: StateContext<StoreStateModel>) {
@@ -41,10 +48,9 @@ export class StoreState {
 
   @Action(GetStoresByBoroughAndName)
   getByBoroughAndName({ getState, setState }: StateContext<StoreStateModel>, {
-    borough,
-    name
+    payload
   }: GetStoresByBoroughAndName) {
-    return this.storeService.getStoresByBoroughAndName(borough, name).pipe(
+    return this.storeService.getStoresByBoroughAndName(payload).pipe(
       tap(result => {
         const state = getState();
         setState({

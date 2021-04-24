@@ -2,10 +2,10 @@
   <div class="container">
 
     <div class="row justify-content-center align-self-center">
-      <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="form-signin">
+      <form [formGroup]="searchForm" ngxsForm="stores.form" (ngSubmit)="onSubmit()" class="form-signin">
         <h1 class="h3 mb-3 font-weight-normal">Buscar Farmacia</h1>
-        <label for="commune" class="sr-only">Comuna</label>
-        <input formControlName="commune" type="text" id="commune" class="form-control" placeholder="Comuna" required="" autofocus="">
+        <label for="borough" class="sr-only">Comuna</label>
+        <input formControlName="borough" type="text" id="borough" class="form-control" placeholder="Comuna" required="" autofocus="">
         <label for="name" class="sr-only">Nombre de Local</label>
         <input formControlName="name" type="text" id="name" class="form-control" placeholder="Nombre de Local" required="">
         <br>

@@ -16,13 +16,15 @@ export class StoreComponent implements OnInit {
   @Select(StoreState.getStores) stores$: Observable<StoreModel>;
 
   searchForm = new FormGroup({
-    commune: new FormControl('recoleta'),
+    borough: new FormControl('recoleta'),
     name: new FormControl('ahumada'),
   });
   constructor(private store: Store) {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetStores());
+  }
+  onSubmit(): void {
+    //
   }
 }

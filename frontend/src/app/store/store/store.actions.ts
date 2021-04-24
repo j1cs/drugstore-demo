@@ -1,4 +1,5 @@
 import { Store } from '@app/store/service/store';
+import { Form } from '@app/store/service/form';
 
 export class GetStores {
   static readonly type = '[STORE] Get';
@@ -7,7 +8,7 @@ export class GetStores {
 export class GetStoresByBoroughAndName {
   static readonly type = '[STORE] Get by Borough and Name';
 
-  constructor(public borough: string, public name: string) {
+  constructor(public payload: Form) {
   }
 }
 
