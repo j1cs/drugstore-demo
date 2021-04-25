@@ -17,17 +17,17 @@ export class StoreComponent implements OnInit {
 
   searchForm = this.form.group({
     borough: ['', Validators.required],
-    name: ['', Validators.required],
+    name: ['', Validators.required]
   });
-  latitude = -33.4586361;
-  longitude = -70.6419717;
-  mapType = 'roadmap';
+
+  zoom = 15;
 
   constructor(private store: Store, private form: FormBuilder) {
   }
 
   ngOnInit(): void {
   }
+
   onSubmit(): void {
     this.store.dispatch(new GetStoresByBoroughAndName());
   }

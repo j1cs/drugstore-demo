@@ -1,39 +1,34 @@
 <div class="box">
-  <div class="container">
+  <div class="container mb-5">
 
     <div class="row justify-content-center align-self-center">
       <form [formGroup]="searchForm" ngxsFormClearOnDestroy="true" ngxsForm="stores.form" (ngSubmit)="onSubmit()" class="form-signing">
         <h1 class="h3 mb-3 font-weight-normal">Buscar Farmacia</h1>
-        <label for="borough" class="sr-only">Comuna</label>
-        <input formControlName="borough" type="text" id="borough" class="form-control" placeholder="Comuna" required="" autofocus="">
-        <label for="name" class="sr-only">Nombre de Local</label>
-        <input formControlName="name" type="text" id="name" class="form-control" placeholder="Nombre de Local" required="">
-        <br>
+        <div class="form-group">
+          <label for="borough" class="sr-only">Comuna</label>
+          <input formControlName="borough" type="text" id="borough" class="form-control" placeholder="Comuna" required="" autofocus="">
+        </div>
+        <div class="form-group">
+          <label for="name" class="sr-only">Nombre de Local</label>
+          <input formControlName="name" type="text" id="name" class="form-control" placeholder="Nombre de Local" required="">
+        </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!searchForm.valid">Buscar</button>
       </form>
     </div>
-    <google-map></google-map>
-    <div class="row">
 
+  </div>
+  <div class="col">
+    <div class="row">
       <div class="col-md-4 col-sm-6 col-12" *ngFor="let store of stores$ | async">
-        <div class="box-part text-justify">
+        <div class="box-part text-justify mb-5" style="width: 90%; margin: auto">
           <div>Nombre Local: {{ store.name | lowercase | titlecase }}</div>
           <div>Dirección: {{ store.address | lowercase | titlecase }}</div>
           <div>Teléfono: {{ store.phone }}</div>
-
+          <google-map [center]="{lat: store.latitude, lng: store.longitude}" [zoom]="zoom">
+            <map-marker [position]="{lat: store.latitude, lng: store.longitude}"></map-marker>
+          </google-map>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<div class="right" *ngIf="stores$">
-
-  <h3>Stores</h3>
-  <ul>
-    <li  *ngFor="let store of stores$ | async">
-      {{ store.name }}
-    </li>
-  </ul>
-
 </div>
