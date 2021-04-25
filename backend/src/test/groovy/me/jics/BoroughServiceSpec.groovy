@@ -26,11 +26,11 @@ class BoroughServiceSpec extends Specification {
         given:
         Pharmacy mockPharmacy = getMockPharmacy()
         when:
-        Flowable<String> listSingle = service.all()
-        String boroughName = listSingle.blockingFirst()
+        Single<List<String>> listSingle = service.all()
+        List<String> boroughName = listSingle.blockingGet()
         then:
         client.retrieve() >> getMockPharmacies()
-        boroughName == StringUtils.capitalize(mockPharmacy.getBoroughName())
+        boroughName.find { it.toString() == StringUtils.capitalize(mockPharmacy.getBoroughName()) }
     }
 
     static def getMockPharmacies() {

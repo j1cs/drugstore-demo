@@ -44,13 +44,13 @@ class StoreControllerSpec extends Specification {
 
     void "Retrieve All Store's name"() {
         given:
-        String mock = [ 'storeName' ]
+        String mock = 'storeName'
         when:
-        Flowable flowable = client.retrieve(HttpRequest.GET('/all/names'))
-        String boroughName = flowable.blockingFirst()
+        Flowable flowable = client.retrieve(HttpRequest.GET('/all/names'), Argument.listOf(String))
+        List<String> boroughName = flowable.firstElement().toSingle().blockingGet()
         then:
-        storeService.allNames() >> Flowable.just('storeName')
-        boroughName == mock
+        storeService.allNames() >> Single.just(['storeName'])
+        boroughName.find { it.toString() == mock }
     }
 
     void "Retrieve All Drugstores Filter By Borough Name"() {

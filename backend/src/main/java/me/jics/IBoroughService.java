@@ -1,7 +1,9 @@
 package me.jics;
 
-import io.reactivex.Flowable;
+import io.reactivex.Single;
+
+import java.util.List;
 
 public interface IBoroughService {
-    Flowable<String> all();
+    Single<List<String>> all();
 }

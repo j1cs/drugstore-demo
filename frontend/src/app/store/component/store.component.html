@@ -6,16 +6,25 @@
         <h1 class="h3 mb-3 font-weight-normal">Buscar Farmacia</h1>
         <div class="form-group">
           <label for="borough" class="sr-only">Comuna</label>
-          <input formControlName="borough" type="text" id="borough" class="form-control" placeholder="Comuna" required="" autofocus="">
+          <select class="form-control" formControlName="borough" id="borough">
+            <option readonly="readonly" [value]="''">Comuna</option>
+            <option *ngFor="let name of boroughs$ | async" [value]="name">
+              {{name}}
+            </option>
+          </select>
         </div>
         <div class="form-group">
           <label for="name" class="sr-only">Nombre de Local</label>
-          <input formControlName="name" type="text" id="name" class="form-control" placeholder="Nombre de Local" required="">
+          <select class="form-control" formControlName="name" id="name">
+            <option readonly="readonly" [value]="''">Nombre de Local</option>
+            <option *ngFor="let name of storeNames$ | async" [value]="name">
+              {{name}}
+            </option>
+          </select>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!searchForm.valid">Buscar</button>
       </form>
     </div>
-
   </div>
   <div class="col">
     <div class="row">

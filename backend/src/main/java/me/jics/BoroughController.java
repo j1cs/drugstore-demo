@@ -2,7 +2,9 @@ package me.jics;
 
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.reactivex.Flowable;
+import io.reactivex.Single;
+
+import java.util.List;
 
 @Controller("/borough")
 public class BoroughController {
@@ -13,7 +15,7 @@ public class BoroughController {
     }
 
     @Get(uri = "/all")
-    public Flowable<String> index() {
+    public Single<List<String>> index() {
         return this.service.all();
     }
 }

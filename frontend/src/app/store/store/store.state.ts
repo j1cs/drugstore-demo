@@ -1,6 +1,12 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Store } from '@app/store/service/store';
-import { AddStore, GetStores, GetStoresByBoroughAndName, RemoveStore } from '@app/store/store/store.actions';
+import {
+  AddStore, GetBoroughs,
+  GetStoreNames,
+  GetStores,
+  GetStoresByBoroughAndName,
+  RemoveStore
+} from '@app/store/store/store.actions';
 import { Injectable } from '@angular/core';
 import { StoreService } from '@app/store/service/store.service';
 import { tap } from 'rxjs/operators';
@@ -15,6 +21,8 @@ export class StoreForModel {
 
 export class StoreStateModel {
   stores: Store[];
+  boroughs: string[];
+  storeNames: string[];
   form: StoreForModel;
 }
 
@@ -22,6 +30,8 @@ export class StoreStateModel {
   name: 'stores',
   defaults: {
     stores: [],
+    boroughs: [],
+    storeNames: [],
     form: {
       model: undefined,
       dirty: false,
@@ -43,6 +53,16 @@ export class StoreState {
     return state.form;
   }
 
+  @Selector()
+  static getBoroughs(state: StoreStateModel) {
+    return state.boroughs;
+  }
+
+  @Selector()
+  static getStoreNames(state: StoreStateModel) {
+    return state.storeNames;
+  }
+
   constructor(private storeService: StoreService) {
   }
 
@@ -54,6 +74,32 @@ export class StoreState {
         setState({
           ...state,
           stores: result
+        });
+      })
+    );
+  }
+
+  @Action(GetBoroughs)
+  getBoroughs({ getState, setState }: StateContext<StoreStateModel>) {
+    return this.storeService.getBorough().pipe(
+      tap(result => {
+        const state = getState();
+        setState({
+          ...state,
+          boroughs: result
+        });
+      })
+    );
+  }
+
+  @Action(GetStoreNames)
+  getStoreNAmes({ getState, setState }: StateContext<StoreStateModel>) {
+    return this.storeService.getStoreNames().pipe(
+      tap(result => {
+        const state = getState();
+        setState({
+          ...state,
+          storeNames: result
         });
       })
     );

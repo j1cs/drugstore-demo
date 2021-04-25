@@ -8,7 +8,7 @@ import java.util.List;
 public interface IStoreService {
     Single<List<Store>> all();
 
-    Flowable<String> allNames();
+    Single<List<String>> allNames();
 
     Single<List<Store>> findByName(String name);
 

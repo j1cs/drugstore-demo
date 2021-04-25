@@ -9,6 +9,7 @@ import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
+import io.reactivex.Single
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
@@ -30,13 +31,13 @@ class BoroughControllerSpec extends Specification {
 
     void "Retrieve All Borough's name"() {
         given:
-        String mock = [ 'borough' ]
+        String mock = 'borough'
         when:
-        Flowable flowable = client.retrieve(HttpRequest.GET('/all'))
-        String boroughName = flowable.blockingFirst()
+        Flowable flowable = client.retrieve(HttpRequest.GET('/all'), Argument.listOf(String))
+        List<String> boroughName = flowable.firstElement().toSingle().blockingGet()
         then:
-        boroughService.all() >> Flowable.just('borough')
-        boroughName == mock
+        boroughService.all() >> Single.just(['borough'])
+        boroughName.find { it.toString() == mock }
     }
 
     @MockBean(BoroughService)

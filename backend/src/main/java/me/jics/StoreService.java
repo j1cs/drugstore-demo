@@ -58,14 +58,16 @@ public class StoreService implements IStoreService {
      */
     @Override
     @Cacheable("stores-all-name")
-    public Flowable<String> allNames() {
+    public Single<List<String>> allNames() {
         log.info("Entering to StoreService.allNames");
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         log.info("Got pharmacies from the allNames");
-        return Flowable.fromPublisher(
-                flowable.distinct(Pharmacy::getStoreName)
-                        .map(pharmacy -> StringUtils.capitalize(pharmacy.getStoreName().toLowerCase()))
-        );
+        return flowable
+                .map(pharmacy -> StringUtils.capitalize(pharmacy.getStoreName().trim().toLowerCase()))
+                .distinct(String::toString)
+                .toList()
+                .doFinally(() -> log.info("List of store names"))
+                .doOnError(throwable -> log.error(throwable.getLocalizedMessage()));
 
     }
 

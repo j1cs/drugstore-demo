@@ -49,7 +49,7 @@ public class StoreController {
      * @return Flowable with all stores
      */
     @Get(uri = "/all/names")
-    public Flowable<String> getAllStoresName() {
+    public Single<List<String>> getAllStoresName() {
         log.info("Entering to StoreController.getAllStoresName");
         return this.service.allNames();
     }
