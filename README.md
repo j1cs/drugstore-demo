@@ -16,6 +16,8 @@ git clone https://github.com/j1cs/drugstore.git
 docker-compose up -d
 ```
 
+## Grab ip from your server
+(if you are not using a domain)  
 Get you public ip
 ```
 curl https://ipinfo.io/ip
@@ -26,4 +28,8 @@ Open the result (x.x.x.x) in your browser.
 
 ## Api docs
 
-Visit http://x.x.x.x/api/swagger-ui.html
+Visit http://x.x.x.x/api/swagger-ui
+
+
+
+
