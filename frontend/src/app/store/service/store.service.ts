@@ -8,16 +8,14 @@ const routes = {
   store: () => `/store/all`,
   storesByCommuneAndName: (borough: string, name: string) => `/store/${borough}/${name}`,
   storeNames: () => `/store/all/names`,
-  boroughs: () => `/borough/all`
+  boroughs: () => `/borough/all`,
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StoreService {
-
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   getStores(): Observable<Store[]> {
     return this.httpClient.get<Store[]>(routes.store());

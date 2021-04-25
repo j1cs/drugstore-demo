@@ -4,14 +4,11 @@ import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 import { StoreComponent } from '@app/store/component/store.component';
 
-const routes: Routes = [
-  { path: '', component: StoreComponent, data: { title: marker('Store') } }
-];
+const routes: Routes = [{ path: '', component: StoreComponent, data: { title: marker('Store') } }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: []
+  providers: [],
 })
-export class StoreRoutingModule {
-}
+export class StoreRoutingModule {}

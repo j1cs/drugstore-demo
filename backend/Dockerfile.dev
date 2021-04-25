@@ -1,8 +1,0 @@
-FROM adoptopenjdk/maven-openjdk11 AS build
-COPY . /root
-RUN mvn -f /root/pom.xml clean package -Dmaven.test.skip=true
-
-FROM adoptopenjdk/openjdk11:alpine-slim
-COPY --from=build /root/target/backend-*.jar app.jar
-EXPOSE 8080 5005
-CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-jar", "app.jar"]

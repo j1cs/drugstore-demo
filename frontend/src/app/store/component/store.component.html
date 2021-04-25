@@ -1,15 +1,20 @@
 <div class="box">
   <div class="container mb-5">
-
     <div class="row justify-content-center align-self-center">
-      <form [formGroup]="searchForm" ngxsFormClearOnDestroy="true" ngxsForm="stores.form" (ngSubmit)="onSubmit()" class="form-signing">
+      <form
+        [formGroup]="searchForm"
+        ngxsFormClearOnDestroy="true"
+        ngxsForm="stores.form"
+        (ngSubmit)="onSubmit()"
+        class="form-signing"
+      >
         <h1 class="h3 mb-3 font-weight-normal">Buscar Farmacia</h1>
         <div class="form-group">
           <label for="borough" class="sr-only">Comuna</label>
           <select class="form-control" formControlName="borough" id="borough">
             <option readonly="readonly" [value]="''">Comuna</option>
             <option *ngFor="let name of boroughs$ | async" [value]="name">
-              {{name}}
+              {{ name }}
             </option>
           </select>
         </div>
@@ -18,7 +23,7 @@
           <select class="form-control" formControlName="name" id="name">
             <option readonly="readonly" [value]="''">Nombre de Local</option>
             <option *ngFor="let name of storeNames$ | async" [value]="name">
-              {{name}}
+              {{ name }}
             </option>
           </select>
         </div>
@@ -33,8 +38,8 @@
           <div>Nombre Local: {{ store.name | lowercase | titlecase }}</div>
           <div>Dirección: {{ store.address | lowercase | titlecase }}</div>
           <div>Teléfono: {{ store.phone }}</div>
-          <google-map [center]="{lat: store.latitude, lng: store.longitude}" [zoom]="zoom">
-            <map-marker [position]="{lat: store.latitude, lng: store.longitude}"></map-marker>
+          <google-map [center]="{ lat: store.latitude, lng: store.longitude }" [zoom]="zoom">
+            <map-marker [position]="{ lat: store.latitude, lng: store.longitude }"></map-marker>
           </google-map>
         </div>
       </div>

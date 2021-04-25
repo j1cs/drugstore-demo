@@ -1,11 +1,12 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Store } from '@app/store/service/store';
 import {
-  AddStore, GetBoroughs,
+  AddStore,
+  GetBoroughs,
   GetStoreNames,
   GetStores,
   GetStoresByBoroughAndName,
-  RemoveStore
+  RemoveStore,
 } from '@app/store/store/store.actions';
 import { Injectable } from '@angular/core';
 import { StoreService } from '@app/store/service/store.service';
@@ -36,13 +37,12 @@ export class StoreStateModel {
       model: undefined,
       dirty: false,
       status: '',
-      errors: {}
-    }
-  }
+      errors: {},
+    },
+  },
 })
 @Injectable()
 export class StoreState {
-
   @Selector()
   static getStores(state: StoreStateModel) {
     return state.stores;
@@ -63,17 +63,16 @@ export class StoreState {
     return state.storeNames;
   }
 
-  constructor(private storeService: StoreService) {
-  }
+  constructor(private storeService: StoreService) {}
 
   @Action(GetStores)
   get({ getState, setState }: StateContext<StoreStateModel>) {
     return this.storeService.getStores().pipe(
-      tap(result => {
+      tap((result) => {
         const state = getState();
         setState({
           ...state,
-          stores: result
+          stores: result,
         });
       })
     );
@@ -82,11 +81,11 @@ export class StoreState {
   @Action(GetBoroughs)
   getBoroughs({ getState, setState }: StateContext<StoreStateModel>) {
     return this.storeService.getBorough().pipe(
-      tap(result => {
+      tap((result) => {
         const state = getState();
         setState({
           ...state,
-          boroughs: result
+          boroughs: result,
         });
       })
     );
@@ -95,11 +94,11 @@ export class StoreState {
   @Action(GetStoreNames)
   getStoreNAmes({ getState, setState }: StateContext<StoreStateModel>) {
     return this.storeService.getStoreNames().pipe(
-      tap(result => {
+      tap((result) => {
         const state = getState();
         setState({
           ...state,
-          storeNames: result
+          storeNames: result,
         });
       })
     );
@@ -108,29 +107,28 @@ export class StoreState {
   @Action(GetStoresByBoroughAndName)
   getByBoroughAndName({ getState, setState }: StateContext<StoreStateModel>) {
     return this.storeService.getStoresByBoroughAndName(getState().form.model).pipe(
-      tap(result => {
+      tap((result) => {
         const state = getState();
         setState({
           ...state,
-          stores: result
+          stores: result,
         });
       })
     );
   }
 
-
   @Action(AddStore)
   add({ getState, patchState }: StateContext<StoreStateModel>, { payload }: AddStore) {
     const state = getState();
     patchState({
-      stores: [...state.stores, payload]
+      stores: [...state.stores, payload],
     });
   }
 
   @Action(RemoveStore)
   remove({ getState, patchState }: StateContext<StoreStateModel>, { payload }: RemoveStore) {
     patchState({
-      stores: getState().stores.filter(s => s.name !== payload)
+      stores: getState().stores.filter((s) => s.name !== payload),
     });
   }
 }

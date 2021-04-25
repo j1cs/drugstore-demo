@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { GoogleMapsModule } from '@angular/google-maps';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -19,10 +18,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
     ReactiveFormsModule,
     NgxsModule.forFeature([StoreState]),
     NgxsFormPluginModule,
-    GoogleMapsModule
+    GoogleMapsModule,
   ],
-  declarations: [StoreComponent]
+  declarations: [StoreComponent],
 })
-
-export class StoreModule {
-}
+export class StoreModule {}

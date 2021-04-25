@@ -5,15 +5,15 @@ import { Shell } from '@app/shell/shell.service';
 const routes: Routes = [
   Shell.childRoutes([
     { path: 'store', loadChildren: () => import('./store/store.module').then((m) => m.StoreModule) },
-    { path: 'about', loadChildren: () => import('./about/about.module').then((m) => m.AboutModule) }
+    { path: 'about', loadChildren: () => import('./about/about.module').then((m) => m.AboutModule) },
   ]),
   // Fallback when no prior route is matched
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule],
-  providers: []
+  providers: [],
 })
 export class AppRoutingModule {}

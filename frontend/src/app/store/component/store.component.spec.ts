@@ -6,11 +6,11 @@ describe('StoreComponent', () => {
   let component: StoreComponent;
   let fixture: ComponentFixture<StoreComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(
+    waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [StoreComponent]
-      })
-        .compileComponents();
+        declarations: [StoreComponent],
+      }).compileComponents();
     })
   );
 

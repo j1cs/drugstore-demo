@@ -32,7 +32,7 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
     HomeModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
     NgxsModule.forRoot([], {
-      developmentMode: !environment.production
+      developmentMode: !environment.production,
     }),
     NgxsFormPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
@@ -40,7 +40,6 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
   ],
   declarations: [AppComponent],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

@@ -10,7 +10,7 @@ import { GetBoroughs, GetStoreNames, GetStores, GetStoresByBoroughAndName } from
 @Component({
   selector: 'app-store',
   templateUrl: './store.component.html',
-  styleUrls: ['./store.component.scss']
+  styleUrls: ['./store.component.scss'],
 })
 export class StoreComponent implements OnInit {
   @Select(StoreState.getStores) stores$: Observable<StoreModel>;
@@ -19,13 +19,12 @@ export class StoreComponent implements OnInit {
 
   searchForm = this.form.group({
     borough: ['', Validators.required],
-    name: ['', Validators.required]
+    name: ['', Validators.required],
   });
 
   zoom = 15;
 
-  constructor(private store: Store, private form: FormBuilder) {
-  }
+  constructor(private store: Store, private form: FormBuilder) {}
 
   ngOnInit(): void {
     this.store.dispatch([new GetStoreNames(), new GetBoroughs()]);

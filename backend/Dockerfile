@@ -1,13 +1,8 @@
-FROM ghcr.io/graalvm/graalvm-ce:java11-21.0.0 AS builder
-RUN gu install native-image
-WORKDIR /home/app
-COPY . /home/app
-RUN ./mvnw package -Dpackaging=native-image
+FROM adoptopenjdk/maven-openjdk11 AS build
+COPY . /root
+RUN mvn -f /root/pom.xml clean package -Dmaven.test.skip=true
 
-
-FROM frolvlad/alpine-glibc:alpine-3.12
-RUN apk update && apk add libstdc++
-COPY --from=builder /home/app/target/backend /app/application
-
-EXPOSE 8080
-ENTRYPOINT ["/app/application"]
+FROM adoptopenjdk/openjdk11:alpine-slim
+COPY --from=build /root/target/backend-*.jar app.jar
+EXPOSE 8080 5005
+CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-jar", "app.jar"]
