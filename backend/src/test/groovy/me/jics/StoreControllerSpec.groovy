@@ -42,6 +42,17 @@ class StoreControllerSpec extends Specification {
         store.find { it.id == mockStore.id }
     }
 
+    void "Retrieve All Store's name"() {
+        given:
+        String mock = [ 'storeName' ]
+        when:
+        Flowable flowable = client.retrieve(HttpRequest.GET('/all/names'))
+        String boroughName = flowable.blockingFirst()
+        then:
+        storeService.allNames() >> Flowable.just('storeName')
+        boroughName == mock
+    }
+
     void "Retrieve All Drugstores Filter By Borough Name"() {
         given:
         Store mockStore = getMockStore()

@@ -1,6 +1,7 @@
 package me.jics
 
 import groovy.util.logging.Slf4j
+import io.micronaut.core.util.StringUtils
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
@@ -29,8 +30,7 @@ class BoroughServiceSpec extends Specification {
         String boroughName = listSingle.blockingFirst()
         then:
         client.retrieve() >> getMockPharmacies()
-        log.info boroughName
-        boroughName == mockPharmacy.getBoroughName()
+        boroughName == StringUtils.capitalize(mockPharmacy.getBoroughName())
     }
 
     static def getMockPharmacies() {

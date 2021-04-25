@@ -1,6 +1,7 @@
 package me.jics;
 
 import io.micronaut.cache.annotation.Cacheable;
+import io.micronaut.core.util.StringUtils;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
@@ -37,7 +38,7 @@ public class StoreService implements IStoreService {
      * @return @{link List} a list of all stores
      */
     @Override
-    @Cacheable("all")
+    @Cacheable("stores")
     public Single<List<Store>> all() {
         log.info("Entering to StoreService.all");
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
@@ -51,13 +52,31 @@ public class StoreService implements IStoreService {
     }
 
     /**
+     * Service returns a list of pharmacies
+     *
+     * @return @{link List} a list of all stores
+     */
+    @Override
+    @Cacheable("stores-all-name")
+    public Flowable<String> allNames() {
+        log.info("Entering to StoreService.allNames");
+        Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
+        log.info("Got pharmacies from the allNames");
+        return Flowable.fromPublisher(
+                flowable.distinct(Pharmacy::getStoreName)
+                        .map(pharmacy -> StringUtils.capitalize(pharmacy.getStoreName().toLowerCase()))
+        );
+
+    }
+
+    /**
      * Service filter by borough name and returns a list of drugstore
      *
      * @param borough string to filter
      * @return @{link List} a list of all stores filtered by commune name
      */
     @Override
-    @Cacheable(value = "find-by-borough", parameters = "borough")
+    @Cacheable(value = "stores-find-by-borough", parameters = "borough")
     public Single<List<Store>> findByBorough(String borough) {
         log.info("Entering to StoreService.findByBorough with borough:{}", borough);
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
@@ -77,7 +96,7 @@ public class StoreService implements IStoreService {
      * @return @{link List} a list of all stores filtered by store name
      */
     @Override
-    @Cacheable(value = "find-by-name", parameters = "name")
+    @Cacheable(value = "stores-find-by-name", parameters = "name")
     public Single<List<Store>> findByName(String name) {
         log.info("Entering to StoreService.findByName with name:{}", name);
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
@@ -98,7 +117,7 @@ public class StoreService implements IStoreService {
      * @return @{link List} a list of all stores filtered by commune and store name
      */
     @Override
-    @Cacheable(value = "find-by-borough-and-name", parameters = {"borough", "name"})
+    @Cacheable(value = "stores-find-by-borough-and-name", parameters = {"borough", "name"})
     public Single<List<Store>> findByBoroughAndName(String borough, String name) {
         log.info("Entering to StoreService.findByBoroughAndName with borough:{} and name:{}", borough, name);
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();

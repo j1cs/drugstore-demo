@@ -44,6 +44,17 @@ public class StoreController {
     }
 
     /**
+     * Retrieve all drugstores name by region (now is "7" (RM))
+     *
+     * @return Flowable with all stores
+     */
+    @Get(uri = "/all/names")
+    public Flowable<String> getAllStoresName() {
+        log.info("Entering to StoreController.getAllStoresName");
+        return this.service.allNames();
+    }
+
+    /**
      * Retrieve all drugstores by region (now is "7" (RM)) and filtered by borough name
      *
      * @param borough name from RM to filter

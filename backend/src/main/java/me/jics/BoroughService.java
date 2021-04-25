@@ -1,5 +1,6 @@
 package me.jics;
 
+import io.micronaut.cache.annotation.Cacheable;
 import io.micronaut.core.util.StringUtils;
 import io.reactivex.Flowable;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,13 @@ public class BoroughService implements IBoroughService {
         this.pharmacyClient = pharmacyClient;
     }
 
+    /**
+     * Service returns an array of store's names
+     *
+     * @return Flowable an array of store's names
+     */
     @Override
+    @Cacheable("borough-all-names")
     public Flowable<String> all() {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         return Flowable.fromPublisher(

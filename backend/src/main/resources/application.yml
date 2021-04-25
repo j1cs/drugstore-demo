@@ -28,13 +28,17 @@ noop-cache.enabled: ${ENABLE_CACHE:false}
 redis:
   uri: redis://${REDI_URI:localhost}
   caches:
-    all:
+    stores:
       expire-after-write: 15m
-    find-by-borough:
+    stores-all-name:
       expire-after-write: 15m
-    find-by-name:
+    stores-find-by-borough:
+      expire-after-write: 15m
+    stores-find-by-name:
       expire-after-access: 15m
-    find-by-borough-and-name:
+    stores-find-by-borough-and-name:
+      expire-after-access: 15m
+    borough-all-names:
       expire-after-access: 15m
   timeout: 5s
 

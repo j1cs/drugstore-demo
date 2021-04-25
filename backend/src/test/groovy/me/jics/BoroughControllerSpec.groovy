@@ -4,6 +4,7 @@ import groovy.util.logging.Slf4j
 import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.RxHttpClient
+import io.micronaut.http.client.RxStreamingHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -29,20 +30,17 @@ class BoroughControllerSpec extends Specification {
 
     void "Retrieve All Borough's name"() {
         given:
-        String[] mock = getBoroughNames()
+        String mock = [ 'borough' ]
         when:
-        Flowable<String> flowable = client.retrieve(HttpRequest.GET('/all'))
-        flowable.blockingFirst()
+        Flowable flowable = client.retrieve(HttpRequest.GET('/all'))
+        String boroughName = flowable.blockingFirst()
         then:
-        log.info "test"
-    }
-
-    static def getBoroughNames() {
-        return { "boroughName" };
+        boroughService.all() >> Flowable.just('borough')
+        boroughName == mock
     }
 
     @MockBean(BoroughService)
-    IBoroughService storeService() {
+    IBoroughService boroughService() {
         Mock(IBoroughService)
     }
 }
