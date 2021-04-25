@@ -1,10 +1,10 @@
 package me.jics;
 
 import io.micronaut.cache.annotation.Cacheable;
-import io.micronaut.core.util.StringUtils;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.WordUtils;
 
 import javax.inject.Singleton;
 import java.util.List;
@@ -40,7 +40,7 @@ public class BoroughService implements IBoroughService {
     public Single<List<String>> all() {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         return flowable
-                .map(pharmacy -> StringUtils.capitalize(pharmacy.getBoroughName().toLowerCase()))
+                .map(pharmacy -> WordUtils.capitalizeFully(pharmacy.getBoroughName().toLowerCase()))
                 .distinct(String::toString)
                 .toList()
                 .doFinally(() -> log.info("List of borough names"))

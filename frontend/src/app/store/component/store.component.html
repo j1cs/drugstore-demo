@@ -8,26 +8,28 @@
         (ngSubmit)="onSubmit()"
         class="form-signing"
       >
-        <h1 class="h3 mb-3 font-weight-normal">Buscar Farmacia</h1>
+        <h1 class="h3 mb-3 font-weight-normal" translate>Search Drugstore</h1>
         <div class="form-group">
-          <label for="borough" class="sr-only">Comuna</label>
+          <label for="borough" class="sr-only" translate>Borough</label>
           <select class="form-control" formControlName="borough" id="borough">
-            <option readonly="readonly" [value]="''">Comuna</option>
+            <option readonly="readonly" [value]="''" translate>Borough</option>
             <option *ngFor="let name of boroughs$ | async" [value]="name">
               {{ name }}
             </option>
           </select>
         </div>
         <div class="form-group">
-          <label for="name" class="sr-only">Nombre de Local</label>
+          <label for="name" class="sr-only" translate>Store's Name</label>
           <select class="form-control" formControlName="name" id="name">
-            <option readonly="readonly" [value]="''">Nombre de Local</option>
+            <option readonly="readonly" [value]="''" translate>Store's Name</option>
             <option *ngFor="let name of storeNames$ | async" [value]="name">
               {{ name }}
             </option>
           </select>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!searchForm.valid">Buscar</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!searchForm.valid" translate>
+          Search
+        </button>
       </form>
     </div>
   </div>
@@ -35,9 +37,11 @@
     <div class="row">
       <div class="col-md-4 col-sm-6 col-12" *ngFor="let store of stores$ | async">
         <div class="box-part text-justify mb-5" style="width: 90%; margin: auto">
-          <div>Nombre Local: {{ store.name | lowercase | titlecase }}</div>
-          <div>Dirección: {{ store.address | lowercase | titlecase }}</div>
-          <div>Teléfono: {{ store.phone }}</div>
+          <div class="mb-3">
+            <div>{{ 'Name' | translate }}: {{ store.name | lowercase | titlecase }}</div>
+            <div>{{ 'Address' | translate }}: {{ store.address | lowercase | titlecase }}</div>
+            <div>{{ 'Phone' | translate }}: {{ store.phone }}</div>
+          </div>
           <google-map [center]="{ lat: store.latitude, lng: store.longitude }" [zoom]="zoom">
             <map-marker [position]="{ lat: store.latitude, lng: store.longitude }"></map-marker>
           </google-map>

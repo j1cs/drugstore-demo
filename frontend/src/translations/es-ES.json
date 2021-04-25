@@ -3,5 +3,14 @@
   "About": "Acerca de",
   "Hello world !": "¡Hola Mundo!",
   "Home": "Inicio",
-  "Version": "Versión"
+  "Version": "Versión",
+  "Store": "Locales",
+  "Go to Stores": "Ir a Locales",
+  "Search Drugstore": "Buscar Farmacia",
+  "Borough": "Comuna",
+  "Store's Name": "Nombre del Local",
+  "Search": "Buscar",
+  "Name": "Nombre",
+  "Address": "Dirección",
+  "Phone": "Teléfono"
 }

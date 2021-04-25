@@ -1,11 +1,11 @@
 package me.jics;
 
 import io.micronaut.cache.annotation.Cacheable;
-import io.micronaut.core.util.StringUtils;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.text.WordUtils;
 
 import javax.inject.Singleton;
 import java.util.List;
@@ -63,7 +63,7 @@ public class StoreService implements IStoreService {
         Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
         log.info("Got pharmacies from the allNames");
         return flowable
-                .map(pharmacy -> StringUtils.capitalize(pharmacy.getStoreName().trim().toLowerCase()))
+                .map(pharmacy -> WordUtils.capitalizeFully(pharmacy.getStoreName().trim().toLowerCase()))
                 .distinct(String::toString)
                 .toList()
                 .doFinally(() -> log.info("List of store names"))

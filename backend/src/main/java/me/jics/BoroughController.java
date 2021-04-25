@@ -15,7 +15,7 @@ public class BoroughController {
     }
 
     @Get(uri = "/all")
-    public Single<List<String>> index() {
+    public Single<List<String>> boroughs() {
         return this.service.all();
     }
 }

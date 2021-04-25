@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.jics</groupId>
   <artifactId>backend</artifactId>
-  <version>0.1</version>
+  <version>1.0</version>
   <packaging>${packaging}</packaging>
 
   <parent>
@@ -18,6 +18,7 @@
     <!-- If you are building with JDK 9 or higher, you can uncomment the lines below to set the release version -->
     <release.version>11</release.version>
     <micronaut.version>2.4.2</micronaut.version>
+    <commons-text.version>1.9</commons-text.version>
     <exec.mainClass>me.jics.Application</exec.mainClass>
     <micronaut.runtime>netty</micronaut.runtime>
   </properties>
@@ -94,6 +95,12 @@
     <dependency>
       <groupId>io.micronaut.cache</groupId>
       <artifactId>micronaut-cache-noop</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+      <version>${commons-text.version}</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
