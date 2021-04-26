@@ -17,6 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
+import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
       developmentMode: !environment.production,
     }),
     NgxsFormPluginModule.forRoot(),
+    NgxsActionsExecutingModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
   ],

@@ -1,39 +1,52 @@
 <div class="box">
   <div class="container mb-5">
     <div class="row justify-content-center align-self-center">
-      <form
-        [formGroup]="searchForm"
-        ngxsFormClearOnDestroy="true"
-        ngxsForm="stores.form"
-        (ngSubmit)="onSubmit()"
-        class="form-signing"
-      >
-        <h1 class="h3 mb-3 font-weight-normal" translate>Search Drugstore</h1>
-        <div class="form-group">
-          <label for="borough" class="sr-only" translate>Borough</label>
-          <select class="form-control" formControlName="borough" id="borough">
-            <option readonly="readonly" [value]="''" translate>Borough</option>
-            <option *ngFor="let name of boroughs$ | async" [value]="name">
-              {{ name }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="name" class="sr-only" translate>Store's Name</label>
-          <select class="form-control" formControlName="name" id="name">
-            <option readonly="readonly" [value]="''" translate>Store's Name</option>
-            <option *ngFor="let name of storeNames$ | async" [value]="name">
-              {{ name }}
-            </option>
-          </select>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!searchForm.valid" translate>
-          Search
-        </button>
-      </form>
+      <div [hidden]="isFirstLoading$ | async" class="mb-4">
+        <form
+          [formGroup]="searchForm"
+          #ngForm="ngForm"
+          ngxsFormClearOnDestroy="true"
+          ngxsForm="stores.form"
+          (ngSubmit)="onSubmit()"
+          class="form-signing"
+        >
+          <h1 class="h3 mb-3 font-weight-normal" translate>Search Drugstore</h1>
+          <div class="form-group">
+            <label for="borough" class="sr-only" translate>Borough</label>
+            <select class="form-control" formControlName="borough" id="borough">
+              <option readonly="readonly" [value]="''" translate>Borough</option>
+              <option *ngFor="let name of boroughs$ | async" [value]="name">
+                {{ name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="name" class="sr-only" translate>Store's Name</label>
+            <select class="form-control" formControlName="name" id="name">
+              <option readonly="readonly" [value]="''" translate>Store's Name</option>
+              <option *ngFor="let name of storeNames$ | async" [value]="name">
+                {{ name }}
+              </option>
+            </select>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!searchForm.valid" translate>
+            Search
+          </button>
+        </form>
+      </div>
+      <app-loader [isLoading]="isFirstLoading$ | async"></app-loader>
     </div>
   </div>
-  <div class="col">
+  <div class="container">
+    <div class="row justify-content-center align-self-center">
+      <app-loader [isLoading]="isLoading$ | async"></app-loader>
+      <div *ngIf="(stores$ | async)?.length == 0 && ngForm.submitted && !(isLoading$ | async)">
+        <p translate>No Locals Found</p>
+      </div>
+    </div>
+  </div>
+
+  <div [hidden]="isLoading$ | async" class="col">
     <div class="row">
       <div class="col-md-4 col-sm-6 col-12" *ngFor="let store of stores$ | async">
         <div class="box-part text-justify mb-5" style="width: 90%; margin: auto">

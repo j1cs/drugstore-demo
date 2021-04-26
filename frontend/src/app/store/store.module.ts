@@ -9,6 +9,7 @@ import { StoreState } from '@app/store/store/store.state';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { SharedModule } from '@shared';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     NgxsModule.forFeature([StoreState]),
     NgxsFormPluginModule,
     GoogleMapsModule,
+    SharedModule,
   ],
   declarations: [StoreComponent],
 })
