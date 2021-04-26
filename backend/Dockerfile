@@ -1,6 +1,7 @@
 FROM adoptopenjdk/maven-openjdk11 AS build
 COPY . /root
-RUN mvn -f /root/pom.xml clean package -Dmaven.test.skip=true
+ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+RUN mvn -T 1C -f /root/pom.xml clean package -Dmaven.test.skip=true
 
 FROM adoptopenjdk/openjdk11:alpine-slim
 COPY --from=build /root/target/backend-*.jar app.jar
