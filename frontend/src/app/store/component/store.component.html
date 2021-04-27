@@ -42,8 +42,8 @@
       <app-loader [isLoading]="isLoading$ | async"></app-loader>
       <div *ngIf="(stores$ | async)?.length == 0 && ngForm.submitted && +(isLoading$ | async) <= 0"></div>
     </div>
-
-    <div [hidden]="isLoading$ | async" class="col">
+  </div>
+  <div [hidden]="isLoading$ | async" class="col">
       <div class="row">
         <div class="col-md-4 col-sm-6 col-12" *ngFor="let store of stores$ | async">
           <div class="box-part text-justify mb-5">
@@ -58,6 +58,5 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 </div>
