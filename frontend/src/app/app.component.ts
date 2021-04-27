@@ -8,6 +8,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { Logger, UntilDestroy, untilDestroyed } from '@core';
 import { I18nService } from '@app/i18n';
+import { UpdateService } from '@shared/worker/update.service';
 
 const log = new Logger('App');
 
@@ -23,7 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     private translateService: TranslateService,
-    private i18nService: I18nService
+    private i18nService: I18nService,
+    private updateService: UpdateService
   ) {}
 
   ngOnInit() {
@@ -34,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     log.debug('init');
 
+    this.updateService.check();
     // Setup translations
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
 

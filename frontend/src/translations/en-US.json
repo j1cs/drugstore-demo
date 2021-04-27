@@ -5,7 +5,7 @@
   "Home": "Home",
   "Store": "Store",
   "Version": "Version",
-  "Go to Stores": "Ir a Locales",
+  "Go to Stores": "Go to Stores",
   "Search Drugstore": "Search Drugstore",
   "Borough": "Borough",
   "Store's Name": "Store's Name",
@@ -13,5 +13,6 @@
   "Search": "Search",
   "Name": "Name",
   "Address": "Address",
-  "Phone": "Phone"
+  "Phone": "Phone",
+  "Update Available": "Update Available"
 }
