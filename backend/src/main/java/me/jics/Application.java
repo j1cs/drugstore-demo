@@ -1,5 +1,6 @@
 package me.jics;
 
+import io.micronaut.core.annotation.TypeHint;
 import io.micronaut.runtime.Micronaut;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.info.License;
             license = @License(name = "MIT")
     )
 )
+@TypeHint(io.micronaut.jackson.serialize.JacksonObjectSerializer.class)
 public class Application {
 
     public static void main(String[] args) {

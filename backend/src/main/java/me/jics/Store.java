@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.jics.deser.CapitalizeSerializer;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -18,7 +19,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Introspected(classes = {CapitalizeSerializer.class})
-public class Store {
+public class Store implements Serializable {
     private LocalDate date;
     private String id;
     @JsonSerialize(using = CapitalizeSerializer.class)
