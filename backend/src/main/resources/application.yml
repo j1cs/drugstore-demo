@@ -18,6 +18,11 @@ micronaut:
       swagger-ui:
         paths: classpath:META-INF/swagger/views/swagger-ui
         mapping: /swagger-ui/**
+  session:
+    http:
+      redis:
+        enable: true
+        value-serializer: io.micronaut.jackson.serialize.JacksonObjectSerializer
   jcache:
     enabled: false
 jackson:

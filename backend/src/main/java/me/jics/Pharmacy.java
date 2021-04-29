@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.core.annotation.TypeHint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
