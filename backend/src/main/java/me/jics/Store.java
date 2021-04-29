@@ -1,6 +1,8 @@
 package me.jics;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import io.micronaut.core.annotation.Introspected;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.jics.deser.CapitalizeSerializer;
+import me.jics.deser.CoorsDeserializer;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -18,7 +21,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@Introspected
+@Introspected(classes = {CapitalizeSerializer.class})
 public class Store implements Serializable {
     private LocalDate date;
     private String id;
