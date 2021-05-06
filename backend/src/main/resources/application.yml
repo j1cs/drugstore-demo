@@ -41,6 +41,8 @@ redis:
     borough-all-names:
       expire-after-access: 15m
   timeout: 5s
+  cache:
+    value-serializer: io.micronaut.jackson.serialize.JacksonObjectSerializer
 
 services:
   minsal:

@@ -30,4 +30,4 @@ services:
     build: ./frontend/
     container_name: drugstore_frontend
     volumes:
-      - ./frontend/build:/usr/src/app/dist      
+      - ./frontend/build:/usr/src/app/dist

@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.info.License;
             license = @License(name = "MIT")
     )
 )
-@TypeHint(io.micronaut.jackson.serialize.JacksonObjectSerializer.class)
 public class Application {
 
     public static void main(String[] args) {

@@ -115,9 +115,6 @@
           <scope>compile</scope>
         </dependency>
       </dependencies>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
     </profile>
     <profile>
       <id>dev</id>
@@ -128,6 +125,9 @@
           <scope>compile</scope>
         </dependency>
       </dependencies>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
     </profile>
   </profiles>
 
