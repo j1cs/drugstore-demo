@@ -21,15 +21,15 @@ import java.util.List;
 @Singleton
 public class StoreService implements IStoreService {
 
-    private final PharmacyClient pharmacyClient;
+    private final PharmacyOperations pharmacyOperations;
 
     /**
      * Inject dependencies.
      *
-     * @param pharmacyClient Restful client abstraction layer
+     * @param pharmacyOperations Restful client abstraction layer
      */
-    public StoreService(PharmacyClient pharmacyClient) {
-        this.pharmacyClient = pharmacyClient;
+    public StoreService(PharmacyClient pharmacyOperations) {
+        this.pharmacyOperations = pharmacyOperations;
     }
 
     /**
@@ -41,7 +41,7 @@ public class StoreService implements IStoreService {
     @Cacheable("stores")
     public Single<List<Store>> all() {
         log.info("Entering to StoreService.all");
-        Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
+        Flowable<Pharmacy> flowable = this.pharmacyOperations.retrieve();
         log.info("Got pharmacies from the client");
         return flowable
                 .map(pharmacyStoreFunction)
@@ -60,7 +60,7 @@ public class StoreService implements IStoreService {
     @Cacheable("stores-all-name")
     public Single<List<String>> allNames() {
         log.info("Entering to StoreService.allNames");
-        Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
+        Flowable<Pharmacy> flowable = this.pharmacyOperations.retrieve();
         log.info("Got pharmacies from the allNames");
         return flowable
                 .map(pharmacy -> WordUtils.capitalizeFully(pharmacy.getStoreName().trim().toLowerCase()))
@@ -81,7 +81,7 @@ public class StoreService implements IStoreService {
     @Cacheable(value = "stores-find-by-borough", parameters = "borough")
     public Single<List<Store>> findByBorough(String borough) {
         log.info("Entering to StoreService.findByBorough with borough:{}", borough);
-        Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
+        Flowable<Pharmacy> flowable = this.pharmacyOperations.retrieve();
         log.info("Got pharmacies from the client");
         return flowable
                 .filter(pharmacy -> pharmacy.getBoroughName().equalsIgnoreCase(borough))
@@ -101,7 +101,7 @@ public class StoreService implements IStoreService {
     @Cacheable(value = "stores-find-by-name", parameters = "name")
     public Single<List<Store>> findByName(String name) {
         log.info("Entering to StoreService.findByName with name:{}", name);
-        Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
+        Flowable<Pharmacy> flowable = this.pharmacyOperations.retrieve();
         log.info("Got pharmacies from the client");
         return flowable
                 .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name))
@@ -122,7 +122,7 @@ public class StoreService implements IStoreService {
     @Cacheable(value = "stores-find-by-borough-and-name", parameters = {"borough", "name"})
     public Single<List<Store>> findByBoroughAndName(String borough, String name) {
         log.info("Entering to StoreService.findByBoroughAndName with borough:{} and name:{}", borough, name);
-        Flowable<Pharmacy> flowable = this.pharmacyClient.retrieve();
+        Flowable<Pharmacy> flowable = this.pharmacyOperations.retrieve();
         log.info("Got pharmacies from the client");
         return flowable
                 .filter(pharmacy -> pharmacy.getStoreName().equalsIgnoreCase(name) && pharmacy.getBoroughName().equalsIgnoreCase(borough))
