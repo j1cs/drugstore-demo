@@ -13,6 +13,27 @@
     <version>2.5.1</version>
   </parent>
 
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>j1cs</id>
+      <name>Juan Cuzmar</name>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git@github.com:j1cs/drugstore-demo.git/backend</connection>
+    <developerConnection>scm:git@github.com:j1cs/drugstore-demo.git/backend</developerConnection>
+    <url>scm:git@github.com:j1cs/drugstore-demo.git/backend</url>
+  </scm>
+
   <properties>
     <packaging>jar</packaging>
     <!-- If you are building with JDK 9 or higher, you can uncomment the lines below to set the release version -->
