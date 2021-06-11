@@ -1,11 +1,5 @@
 # Backend
 
-Run in dev mode:
-
-```
-$ MICRONAUT_ENVIRONMENTS=dev ./mvnw -P dev mn:run
-```
-
 # More info
 ## Micronaut 2.4.2 Documentation
 
