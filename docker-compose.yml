@@ -5,12 +5,12 @@ services:
     container_name: drugstore_nginx
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
-      - ./frontend/build:/var/www/html
+      - ./angular/build:/var/www/html
     ports:
       - '80:80'
     command: /bin/sh -c "nginx -g 'daemon off;'"
     depends_on:
-      - backend
+      - micronaut
 
   redis:
     image: redis:alpine
@@ -18,16 +18,16 @@ services:
     ports:
       - '6379:6379'
 
-  backend:
-    build: ./backend/
-    container_name: drugstore_backend
+  micronaut:
+    build: ./micronaut/
+    container_name: drugstore_micronaut
     environment:
       - MICRONAUT_ENVIRONMENTS=
       - REDI_URI=drugstore_redis
     ports:
       - '8080:8080'
-  frontend:
-    build: ./frontend/
-    container_name: drugstore_frontend
+  angular:
+    build: ./angular/
+    container_name: drugstore_angular
     volumes:
-      - ./frontend/build:/usr/src/app/dist
+      - ./angular/build:/usr/src/app/dist
