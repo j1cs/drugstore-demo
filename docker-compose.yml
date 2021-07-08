@@ -25,8 +25,8 @@ services:
     volumes:
       - './postgres/data:/var/lib/postgresql/data'
     environment:
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'postgres123'
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres123
   adminer:
     container_name: adminer
     image: adminer
@@ -40,6 +40,13 @@ services:
       target: production
       dockerfile: ./Dockerfile
     command: 'npm run start:prod'
+    environment:
+      - DATABASE_TYPE=postgres
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres123
+      - DATABASE_DB=postgres
     ports:
       - '3000:3000'
     volumes:

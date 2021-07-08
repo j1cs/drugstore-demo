@@ -1,59 +1,62 @@
-backend/HELP.md
-backend/target/
-!backend/.mvn/wrapper/maven-wrapper.jar
-!backend/**/src/main/**
-!backend/**/src/test/**
+micronaut/HELP.md
+micronaut/target/
+!micronaut/.mvn/wrapper/maven-wrapper.jar
+!micronaut/**/src/main/**
+!micronaut/**/src/test/**
 
 ### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+micronaut/.apt_generated
+micronaut/.classpath
+micronaut/.factorypath
+micronaut/.project
+micronaut/.settings
+micronaut/.springBeans
+micronaut/.sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+micronaut/.idea
+micronaut/*.iws
+micronaut/*.iml
+micronaut/*.ipr
 
 ### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
+micronaut/nbproject/private/
+micronaut/nbbuild/
+micronaut/dist/
+micronaut/nbdist/
+micronaut/.nb-gradle/
+micronaut/build/
 
 ### VS Code ###
-.vscode/
+micronaut/.vscode/
+
+postgres
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-frontend/dist
-frontend/tmp
-frontend/out-tsc
+angular/dist
+angular/build
+angular/tmp
+angular/out-tsc
 # Only exists if Bazel was run
-frontend/bazel-out
+angular/bazel-out
 
 # dependencies
-frontend/node_modules
+angular/node_modules
 
 # profiling files
-frontend/chrome-profiler-events*.json
-frontend/speed-measure-plugin*.json
+angular/chrome-profiler-events*.json
+angular/speed-measure-plugin*.json
 
 # IDEs and editors
-frontend/.idea
-frontend/.project
-frontend/.classpath
-frontend/.c9/
-frontend/*.launch
-frontend/.settings/
-frontend/*.sublime-workspace
+angular/.idea
+angular/.project
+angular/.classpath
+angular/.c9/
+angular/*.launch
+angular/.settings/
+angular/*.sublime-workspace
 
 # IDE - VSCode
 .vscode/*
@@ -64,14 +67,14 @@ frontend/*.sublime-workspace
 .history/*
 
 # misc
-frontend/.sass-cache
-frontend/connect.lock
-frontend/coverage
-frontend/libpeerconnection.log
-frontend/npm-debug.log
-frontend/yarn-error.log
-frontend/testem.log
-frontend/typings
+angular/.sass-cache
+angular/connect.lock
+angular/coverage
+angular/libpeerconnection.log
+angular/npm-debug.log
+angular/yarn-error.log
+angular/testem.log
+angular/typings
 
 # System Files
 .DS_Store

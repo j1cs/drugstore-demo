@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import databaseConfig from './config/database.config';
+import DatabaseConfig from './config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -11,9 +11,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ConfigModule.forRoot({
       envFilePath:
         (process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : '') + '.env',
-      //ignoreEnvFile: !!process.env.NODE_ENV,
+      ignoreEnvFile: !process.env.NODE_ENV,
       isGlobal: true,
-      load: [databaseConfig],
+      load: [DatabaseConfig],
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],

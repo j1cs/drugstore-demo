@@ -1,9 +1,9 @@
 import { ConfigModule } from '@nestjs/config';
-import databaseConfig from './config/database.config';
+import DatabaseConfig from './config/database.config';
 
 ConfigModule.forRoot({
   isGlobal: true,
-  load: [databaseConfig],
+  load: [DatabaseConfig],
 });
 
-export default databaseConfig();
+export default DatabaseConfig();
