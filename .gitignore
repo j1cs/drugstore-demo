@@ -76,3 +76,39 @@ frontend/typings
 # System Files
 .DS_Store
 Thumbs.db
+# compiled output
+nestjs/dist
+nestjs/node_modules
+
+# Logs
+nestjs(logs
+nestjs/*.log
+nestjs/npm-debug.log*
+nestjs/yarn-debug.log*
+nestjs/yarn-error.log*
+nestjs/lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+nestjs/coverage
+nestjs/.nyc_output
+# IDEs and editors
+nestjs/.idea
+nestjs/.project
+nestjs/.classpath
+nestjs/.c9/
+nestjs/*.launch
+nestjs/.settings/
+nestjs/*.sublime-workspace
+# IDE - VSCode
+nestjs/.vscode/*
+nestjs/!.vscode/settings.json
+nestjs/!.vscode/tasks.json
+nestjs/!.vscode/launch.json
+nestjs/!.vscode/extensions.json
+# sqlite
+nestjs/*.db
+# file env
+nestjs/*.env
