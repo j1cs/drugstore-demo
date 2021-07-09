@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { CatsModule } from './cats/cats.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import DatabaseConfig from './config/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppController } from './app.controller';
+import { CacheService } from './cache/cache.service';
+import { CacheModule } from './cache/cache.module';
+import { UserModule } from './user/user.module';
+import DatabaseConfig from './config/database.config';
+import CacheConfig from './config/cache.config';
 
 @Module({
   imports: [
@@ -13,7 +15,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         (process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : '') + '.env',
       ignoreEnvFile: !process.env.NODE_ENV,
       isGlobal: true,
-      load: [DatabaseConfig],
+      load: [DatabaseConfig, CacheConfig],
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
@@ -21,9 +23,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         ...configService.get('database'),
       }),
     }),
-    CatsModule,
+    CacheModule,
+    UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [CacheService],
 })
 export class AppModule {}

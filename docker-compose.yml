@@ -17,6 +17,12 @@ services:
     container_name: drugstore_redis
     ports:
       - '6379:6379'
+  redis-commander:
+    image: rediscommander/redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - '8081:8081'
   postgres:
     image: 'postgres:alpine'
     container_name: postgres

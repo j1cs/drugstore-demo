@@ -1,9 +1,9 @@
-POST http://localhost:3000/cats
+POST http://localhost:3000/user
 accept: application/json
 Content-Type: application/json
 
-{ "name": "misifus", "age": 10, "breed": "greek"}
+{ "name": "john", "age": 10}
 ###
-GET http://localhost:3000/cats/1
+GET http://localhost:3000/user
 accept: application/json
 Content-Type: application/json

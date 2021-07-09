@@ -1,15 +1,13 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Cat {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
   name: string;
   @Column()
   age: number;
-  @Column()
-  breed: string;
   @Column({ default: true })
   isActive: boolean;
 }

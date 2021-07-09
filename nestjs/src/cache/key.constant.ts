@@ -1,0 +1,2 @@
+export const GET_USERS_CACHE_KEY = 'GET_USERS_CACHE_KEY';
+export const GET_USER_CACHE_KEY = 'GET_USER_CACHE_KEY';
