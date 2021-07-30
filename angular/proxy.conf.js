@@ -8,12 +8,19 @@ const HttpsProxyAgent = require('https-proxy-agent');
  */
 const proxyConfig = [
   {
-    context: '/api',
-    pathRewrite: { '^/api': '' },
+    context: '/api/micronaut',
+    pathRewrite: { '^/api/micronaut': '' },
     target: 'http://localhost:8080',
     changeOrigin: true,
     secure: false,
-  }
+  },
+  {
+    context: '/api/nestjs',
+    pathRewrite: { '^/api/nestjs': '' },
+    target: 'http://localhost:3000',
+    changeOrigin: true,
+    secure: false,
+  },
 ];
 
 /*
@@ -30,7 +37,9 @@ function setupForCorporateProxy(proxyConfig) {
   if (proxyServer) {
     console.log(`Using corporate proxy server: ${proxyServer}`);
     agent = new HttpsProxyAgent(proxyServer);
-    proxyConfig.forEach(entry => { entry.agent = agent; });
+    proxyConfig.forEach((entry) => {
+      entry.agent = agent;
+    });
   }
 
   return proxyConfig;

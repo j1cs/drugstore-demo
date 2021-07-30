@@ -1,11 +1,11 @@
-version: '3.5'
+version: "3.5"
 services:
-  backend:
+  micronaut:
     build: .
     ports:
-      - '8080:8080'
-      - '5005:5005'
-    container_name: 'backend'
+      - "8080:8080"
+      - "5005:5005"
+    container_name: "micronaut"
     environment:
       - MICRONAUT_ENVIRONMENTS=dev
       - _JAVA_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005

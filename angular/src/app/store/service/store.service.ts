@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@app/store/service/store';
 import { Search } from '@app/store/service/search';
 
 const routes = {
-  store: () => `/store/all`,
-  storesByCommuneAndName: (borough: string, name: string) => `/store/${borough}/${name}`,
-  storeNames: () => `/store/all/names`,
-  boroughs: () => `/borough/all`,
+  store: () => `/micronaut/store/all`,
+  storesByCommuneAndName: (borough: string, name: string) => `/micronaut/store/${borough}/${name}`,
+  storeNames: () => `/micronaut/store/all/names`,
+  boroughs: () => `/micronaut/borough/all`,
 };
 
 @Injectable({

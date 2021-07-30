@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { actionsExecuting, ActionsExecuting } from '@ngxs-labs/actions-executing';
 import { Observable } from 'rxjs';
-import { Store, Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Store as StoreModel } from '@app/store/service/store';
 import { StoreState } from '@app/store/store/store.state';
 import { GetBoroughs, GetStoreNames, GetStoresByBoroughAndName } from '@app/store/store/store.actions';

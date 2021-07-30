@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 import { Cache } from 'cache-manager';
 import { GET_USER_CACHE_KEY, GET_USERS_CACHE_KEY } from '../cache/key.constant';
 import { UserNotFoundException } from './exceptions/user-not-found.exception';
-import { CatNotFoundException } from '../cats/exceptions/cat-not-found.exception';
 
 @Injectable()
 export class UserService {
@@ -40,14 +39,11 @@ export class UserService {
       await this.clearCache();
       return user;
     }
-    throw new CatNotFoundException(id);
+    throw new UserNotFoundException(id);
   }
 
   async remove(id: number): Promise<void> {
-    const userDeleted = await this.userRepository.delete(id);
-    if (!userDeleted.affected) {
-      throw new UserNotFoundException(id);
-    }
+    await this.userRepository.delete(id);
     await this.clearCache();
   }
 

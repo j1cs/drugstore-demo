@@ -1,0 +1,90 @@
+<script src="../store/user.state.ts"></script>
+<div class="box">
+  <div class="container mb-5">
+    <div class="row justify-content-center align-self-center">
+      <form
+        [formGroup]="userForm"
+        #ngForm="ngForm"
+        ngxsFormClearOnDestroy="true"
+        ngxsForm="users.user"
+        (ngSubmit)="onSubmit()"
+        class="form-signing"
+      >
+        <h1 class="h3 mb-3 font-weight-normal" translate>Submit User</h1>
+        <div class="form-group">
+          <label for="name" class="sr-only" translate>Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            id="name"
+            placeholder="{{ 'Name' | translate }}"
+          />
+          <div
+            *ngIf="
+              userForm.controls['name'].invalid &&
+              (userForm.controls['name'].dirty || userForm.controls['name'].touched)
+            "
+            class="alert alert-danger"
+          >
+            <div *ngIf="userForm.controls['name'].errors.required">Name is required.</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="age" class="sr-only" translate>Age</label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="age"
+            id="age"
+            placeholder="{{ 'Age' | translate }}"
+          />
+          <div
+            *ngIf="
+              userForm.controls['age'].invalid && (userForm.controls['age'].dirty || userForm.controls['age'].touched)
+            "
+            class="alert alert-danger"
+          >
+            <div *ngIf="userForm.controls['age'].errors.required">Age is required.</div>
+          </div>
+        </div>
+        <input type="hidden" formControlName="id" id="id" />
+        <button class="btn btn-lg btn-primary btn-block" type="submit" [disabled]="!userForm.valid" translate>
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center align-self-center">
+      <app-loader [isLoading]="isLoading$ | async"></app-loader>
+      <div *ngIf="(users$ | async)?.length == 0 && ngForm.submitted && +(isLoading$ | async) <= 0"></div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div [hidden]="isLoading$ | async" class="col">
+      <table class="table text-center table-striped">
+        <thead>
+          <tr>
+            <th translate>Name</th>
+            <th translate>Age</th>
+            <th translate></th>
+            <th translate></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users$ | async">
+            <td>{{ user.name }}</td>
+            <td>{{ user.age }}</td>
+            <td>
+              <button class="btn btn-primary" (click)="edit(user)" translate>Edit</button>
+            </td>
+            <td>
+              <button class="btn btn-primary" (click)="delete(user.id)" translate>Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

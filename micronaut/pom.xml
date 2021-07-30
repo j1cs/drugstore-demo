@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.jics</groupId>
-  <artifactId>backend</artifactId>
+  <artifactId>microanut</artifactId>
   <version>1.0</version>
   <packaging>${packaging}</packaging>
 
@@ -29,9 +29,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git@github.com:j1cs/drugstore-demo.git/backend</connection>
-    <developerConnection>scm:git@github.com:j1cs/drugstore-demo.git/backend</developerConnection>
-    <url>scm:git@github.com:j1cs/drugstore-demo.git/backend</url>
+    <connection>scm:git@github.com:j1cs/drugstore-demo.git/micronaut</connection>
+    <developerConnection>scm:git@github.com:j1cs/drugstore-demo.git/micronaut</developerConnection>
+    <url>scm:git@github.com:j1cs/drugstore-demo.git/micronaut</url>
   </scm>
 
   <properties>
@@ -205,7 +205,7 @@
           </annotationProcessorPaths>
           <compilerArgs>
             <arg>-Amicronaut.processing.group=me.jics</arg>
-            <arg>-Amicronaut.processing.module=backend</arg>
+            <arg>-Amicronaut.processing.module=micronaut</arg>
           </compilerArgs>
         </configuration>
       </plugin>
@@ -240,18 +240,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>bintray</id>
-      <name>Groovy Bintray</name>
-      <url>https://dl.bintray.com/groovy/maven</url>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
 </project>

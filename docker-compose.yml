@@ -1,35 +1,35 @@
-version: '3.5'
+version: "3.5"
 services:
   nginx:
-    image: 'nginx:1.19.9-alpine'
+    image: "nginx:1.19.9-alpine"
     container_name: drugstore_nginx
     volumes:
-      - './nginx/conf:/etc/nginx/conf.d'
-      - './angular/build:/var/www/html'
+      - "./nginx/conf:/etc/nginx/conf.d"
+      - "./angular/build:/var/www/html"
     ports:
-      - '80:80'
+      - "80:80"
     command: /bin/sh -c "nginx -g 'daemon off;'"
     depends_on:
       - micronaut
       - nestjs
   redis:
-    image: 'redis:alpine'
+    image: "redis:alpine"
     container_name: drugstore_redis
     ports:
-      - '6379:6379'
+      - "6379:6379"
   redis-commander:
     image: rediscommander/redis-commander
     environment:
       - REDIS_HOSTS=local:redis:6379
     ports:
-      - '8081:8081'
+      - "8081:8081"
   postgres:
-    image: 'postgres:alpine'
+    image: "postgres:alpine"
     container_name: postgres
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
-      - './postgres/data:/var/lib/postgresql/data'
+      - "./postgres/data:/var/lib/postgresql/data"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres123
@@ -38,14 +38,14 @@ services:
     image: adminer
     restart: always
     ports:
-      - '8000:8080'
+      - "8000:8080"
   nestjs:
     container_name: drugstore_nestjs
     build:
       context: ./nestjs/
       target: production
       dockerfile: ./Dockerfile
-    command: 'npm run start:prod'
+    command: "npm run start:prod"
     environment:
       - DATABASE_TYPE=postgres
       - DATABASE_HOST=postgres
@@ -53,10 +53,12 @@ services:
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres123
       - DATABASE_DB=postgres
+      - CACHE_HOST=drugstore_redis
+      - CACHE_PORT=6379
     ports:
-      - '3000:3000'
+      - "3000:3000"
     volumes:
-      - '.:/usr/src/app'
+      - ".:/usr/src/app"
       - /usr/src/app/node_modules
   micronaut:
     build: ./micronaut/
@@ -65,9 +67,9 @@ services:
       - MICRONAUT_ENVIRONMENTS=
       - REDIS_URI=drugstore_redis
     ports:
-      - '8080:8080'
+      - "8080:8080"
   angular:
     build: ./angular/
     container_name: drugstore_angular
     volumes:
-      - './angular/build:/usr/src/app/dist'
+      - "./angular/build:/usr/src/app/dist"

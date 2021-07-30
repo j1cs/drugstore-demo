@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: backend
+    name: micronaut
   server:
     port: 8080
     thread-selection: auto # https://github.com/micronaut-projects/micronaut-core/issues/3651

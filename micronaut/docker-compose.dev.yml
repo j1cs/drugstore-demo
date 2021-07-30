@@ -1,13 +1,13 @@
-version: '3.5'
+version: "3.5"
 services:
-  backend-dev:
+  micronaut-dev:
     build:
       context: ./
       dockerfile: Dockerfile.dev
     ports:
-      - '8080:8080'
-      - '5005:5005'
-    container_name: 'backend-dev'
+      - "8080:8080"
+      - "5005:5005"
+    container_name: "micronaut-dev"
     environment:
       - MICRONAUT_ENVIRONMENTS=dev
       - _JAVA_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005

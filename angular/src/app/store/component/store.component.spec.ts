@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { NgxsModule } from '@ngxs/store';
-import { StoreState } from '@app/store/store/store.state';
 
 describe('StoreComponent', () => {
   let component: StoreComponent;
@@ -46,15 +45,12 @@ describe('StoreComponent', () => {
   });
   it('fields validity', () => {
     const controls = component.searchForm.controls;
-    Object.entries(controls).forEach(
-      ([key, value]) => expect(value.valid).toBeFalsy()
-    );
+    Object.entries(controls).forEach(([key, value]) => expect(value.valid).toBeFalsy());
   });
   it('submitting a form', () => {
     expect(component.searchForm.valid).toBeFalsy();
     component.searchForm.controls.borough.setValue('recoleta');
     component.searchForm.controls.name.setValue('ahumada');
     expect(component.searchForm.valid).toBeTruthy();
-
   });
 });

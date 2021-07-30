@@ -1,4 +1,4 @@
-# frontend
+# angular
 
 Welcome to the project documentation!
 

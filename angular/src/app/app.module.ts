@@ -38,7 +38,9 @@ import { NgxsActionsExecutingModule } from '@ngxs-labs/actions-executing';
     NgxsFormPluginModule.forRoot(),
     NgxsActionsExecutingModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({
+      disabled: environment.production,
+    }),
   ],
   declarations: [AppComponent],
   providers: [],

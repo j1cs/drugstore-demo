@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "short_name": "frontend",
+  "name": "angular",
+  "short_name": "angular",
   "theme_color": "#488aff",
   "background_color": "#488aff",
   "display": "standalone",

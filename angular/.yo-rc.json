@@ -8,31 +8,18 @@
       "skipQuickstart": false,
       "initGit": true,
       "usePrefix": true,
-      "appName": "frontend",
-      "target": [
-        "web"
-      ],
+      "appName": "angular",
+      "target": ["web"],
       "pwa": true,
       "ui": "bootstrap",
       "auth": false,
       "lazy": true,
       "angulartics": false,
-      "languages": [
-        "en-US",
-        "es-ES"
-      ],
-      "tools": [
-        "prettier",
-        "hads",
-        "jest",
-        "puppeteer"
-      ],
-      "utility": [
-        "lodash",
-        "moment"
-      ],
+      "languages": ["en-US", "es-ES"],
+      "tools": ["prettier", "hads", "jest", "puppeteer"],
+      "utility": ["lodash", "moment"],
       "deploy": "none",
-      "projectName": "frontend",
+      "projectName": "angular",
       "packageManager": "npm",
       "mobile": [],
       "desktop": []

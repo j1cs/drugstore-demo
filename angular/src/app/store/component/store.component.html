@@ -44,19 +44,19 @@
     </div>
   </div>
   <div [hidden]="isLoading$ | async" class="col">
-      <div class="row">
-        <div class="col-md-4 col-sm-6 col-12" *ngFor="let store of stores$ | async">
-          <div class="box-part text-justify mb-5">
-            <div class="mb-3">
-              <div>{{ 'Name' | translate }}: {{ store.name | lowercase | titlecase }}</div>
-              <div>{{ 'Address' | translate }}: {{ store.address | lowercase | titlecase }}</div>
-              <div>{{ 'Phone' | translate }}: {{ store.phone }}</div>
-            </div>
-            <google-map [center]="{ lat: store.latitude, lng: store.longitude }" [zoom]="zoom">
-              <map-marker [position]="{ lat: store.latitude, lng: store.longitude }"></map-marker>
-            </google-map>
+    <div class="row">
+      <div class="col-md-4 col-sm-6 col-12" *ngFor="let store of stores$ | async">
+        <div class="box-part text-justify mb-5">
+          <div class="mb-3">
+            <div>{{ 'Name' | translate }}: {{ store.name | lowercase | titlecase }}</div>
+            <div>{{ 'Address' | translate }}: {{ store.address | lowercase | titlecase }}</div>
+            <div>{{ 'Phone' | translate }}: {{ store.phone }}</div>
           </div>
+          <google-map [center]="{ lat: store.latitude, lng: store.longitude }" [zoom]="zoom">
+            <map-marker [position]="{ lat: store.latitude, lng: store.longitude }"></map-marker>
+          </google-map>
         </div>
       </div>
+    </div>
   </div>
 </div>

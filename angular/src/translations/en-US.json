@@ -1,18 +1,24 @@
 {
-  "APP_NAME": "frontend",
+  "APP_NAME": "angular",
   "About": "About",
   "Hello world !": "Hello world !",
   "Home": "Home",
   "Store": "Store",
+  "User": "User",
   "Version": "Version",
   "Go to Stores": "Go to Stores",
+  "Go to Users": "Go to Users",
   "Search Drugstore": "Search Drugstore",
   "Borough": "Borough",
   "Store's Name": "Store's Name",
   "No Locals Found": "No Locals Found",
   "Search": "Search",
+  "Submit": "Submit",
+  "Edit": "Edit",
+  "Delete": "Delete",
   "Name": "Name",
   "Address": "Address",
   "Phone": "Phone",
-  "Update Available": "Update Available"
+  "Update Available": "Update Available",
+  "Age": "Age"
 }

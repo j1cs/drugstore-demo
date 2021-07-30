@@ -1,13 +1,6 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Store } from '@app/store/service/store';
-import {
-  AddStore,
-  GetBoroughs,
-  GetStoreNames,
-  GetStores,
-  GetStoresByBoroughAndName,
-  RemoveStore,
-} from '@app/store/store/store.actions';
+import { GetBoroughs, GetStoreNames, GetStores, GetStoresByBoroughAndName } from '@app/store/store/store.actions';
 import { Injectable } from '@angular/core';
 import { StoreService } from '@app/store/service/store.service';
 import { tap } from 'rxjs/operators';
@@ -115,20 +108,5 @@ export class StoreState {
         });
       })
     );
-  }
-
-  @Action(AddStore)
-  add({ getState, patchState }: StateContext<StoreStateModel>, { payload }: AddStore) {
-    const state = getState();
-    patchState({
-      stores: [...state.stores, payload],
-    });
-  }
-
-  @Action(RemoveStore)
-  remove({ getState, patchState }: StateContext<StoreStateModel>, { payload }: RemoveStore) {
-    patchState({
-      stores: getState().stores.filter((s) => s.name !== payload),
-    });
   }
 }

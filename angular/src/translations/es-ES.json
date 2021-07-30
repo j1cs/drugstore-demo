@@ -1,18 +1,25 @@
 {
-  "APP_NAME": "frontend",
+  "APP_NAME": "angular",
   "About": "Acerca de",
   "Hello world !": "¡Hola Mundo!",
   "Home": "Inicio",
   "Version": "Versión",
   "Store": "Locales",
+  "User": "Usuario",
   "Go to Stores": "Ir a Locales",
+  "Go to Users": "Ir a Usuarios",
   "Search Drugstore": "Buscar Farmacia",
+  "Submit User": "Agregar Usuario",
   "Borough": "Comuna",
   "Store's Name": "Nombre del Local",
   "No Locals Found": "No se encontró ningun local",
   "Search": "Buscar",
+  "Submit": "Enviar",
+  "Edit": "Editar",
+  "Delete": "Borrar",
   "Name": "Nombre",
   "Address": "Dirección",
   "Phone": "Teléfono",
-  "Update Available": "Nueva versión disponible"
+  "Update Available": "Nueva versión disponible",
+  "Age": "Edad"
 }

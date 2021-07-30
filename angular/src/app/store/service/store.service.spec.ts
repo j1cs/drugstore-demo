@@ -24,7 +24,7 @@ describe('StoreService', () => {
   });
   describe('getStores', () => {
     it('should return all stores', () => {
-      const mockStore : Store[] = [
+      const mockStore: Store[] = [
         {
           date: [2021, 4, 26],
           id: 1,
@@ -43,7 +43,7 @@ describe('StoreService', () => {
         },
       ];
       const storesSubscription = service.getStores();
-      storesSubscription.subscribe((stores:Store[]) => {
+      storesSubscription.subscribe((stores: Store[]) => {
         expect(stores).toEqual(mockStore);
       });
       httpMock.expectOne({}).flush(mockStore);
