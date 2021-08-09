@@ -26,7 +26,7 @@ jackson:
 noop-cache.enabled: ${ENABLED_CACHE:false}
 
 redis:
-  uri: redis://${REDIS_URI:localhost}
+  uri: redis://${REDIS_HOST:localhost}
   caches:
     stores:
       expire-after-write: 15m

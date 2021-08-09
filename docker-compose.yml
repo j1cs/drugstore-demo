@@ -2,6 +2,7 @@ version: "3.5"
 services:
   nginx:
     image: "nginx:1.19.9-alpine"
+    restart: unless-stopped
     container_name: drugstore_nginx
     volumes:
       - "./nginx/conf:/etc/nginx/conf.d"
@@ -19,13 +20,14 @@ services:
       - "6379:6379"
   redis-commander:
     image: rediscommander/redis-commander
+    container_name: drugstore_redis_commander
     environment:
       - REDIS_HOSTS=local:redis:6379
     ports:
       - "8081:8081"
   postgres:
     image: "postgres:alpine"
-    container_name: postgres
+    container_name: drugstore_postgres
     ports:
       - "5432:5432"
     volumes:
@@ -34,8 +36,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres123
   adminer:
-    container_name: adminer
     image: adminer
+    container_name: drugstore_adminer
     restart: always
     ports:
       - "8000:8080"
@@ -53,21 +55,27 @@ services:
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres123
       - DATABASE_DB=postgres
-      - CACHE_HOST=drugstore_redis
+      - CACHE_HOST=redis
       - CACHE_PORT=6379
     ports:
       - "3000:3000"
     volumes:
-      - ".:/usr/src/app"
-      - /usr/src/app/node_modules
+      - "./nestjs:/usr/src/app"
+      - "./nestjs/node_modules:/usr/src/app/node_modules"
+    depends_on:
+      - postgres
+      - redis
   micronaut:
     build: ./micronaut/
     container_name: drugstore_micronaut
     environment:
       - MICRONAUT_ENVIRONMENTS=
-      - REDIS_URI=drugstore_redis
+      - REDIS_HOST=redis
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
   angular:
     build: ./angular/
     container_name: drugstore_angular

@@ -1,4 +1,4 @@
-import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -10,6 +10,7 @@ import { UserNotFoundException } from './exceptions/user-not-found.exception';
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,

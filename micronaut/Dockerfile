@@ -1,7 +1,7 @@
 FROM adoptopenjdk/maven-openjdk11 AS build
 COPY . /root
 ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
-RUN mvn -T 1C -f /root/pom.xml clean package -Dmaven.test.skip=true
+RUN mvn -T 1C -f /root/pom.xml clean package -P prod
 
 FROM adoptopenjdk/openjdk11:alpine-slim
 COPY --from=build /root/target/micronaut-*.jar app.jar
