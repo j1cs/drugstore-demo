@@ -7,4 +7,8 @@ export class CreateUserDto {
   @IsNumber()
   @IsNotEmpty()
   age: number;
+
+  public toString = (): string => {
+    return JSON.stringify(this);
+  };
 }

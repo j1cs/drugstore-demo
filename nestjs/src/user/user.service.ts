@@ -18,18 +18,27 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const user = this.userRepository.create(createUserDto);
+    const user: CreateUserDto = this.userRepository.create(createUserDto);
+    this.logger.log(`User created: createUserDto=${user}`);
+    this.logger.log('Clear cache');
     await this.clearCache();
+    this.logger.log('Cache cleared');
+    this.logger.log('Saving user');
     return this.userRepository.save(user);
   }
 
   findAll(): Promise<User[]> {
+    this.logger.log(`Getting all users`);
     return this.userRepository.find();
   }
 
   findOne(id: number): Promise<User> {
     const user = this.userRepository.findOne(id);
-    if (user) return user;
+    if (user) {
+      this.logger.log(`Got one user: id=${id}`);
+      return user;
+    }
+    this.logger.log(`User not found: id=${id}`);
     throw new UserNotFoundException(id);
   }
 
@@ -37,15 +46,28 @@ export class UserService {
     await this.userRepository.update(id, updateUserDto);
     const user = this.userRepository.findOne(id);
     if (user) {
+      this.logger.log(`Updated: id=${id}, updateUserDto=${updateUserDto}`);
+      this.logger.log('Clear cache');
       await this.clearCache();
+      this.logger.log('Cache cleared');
       return user;
     }
+    this.logger.log(`User not found: id=${id}`);
     throw new UserNotFoundException(id);
   }
 
   async remove(id: number): Promise<void> {
-    await this.userRepository.delete(id);
-    await this.clearCache();
+    const user = this.userRepository.findOne(id);
+    if (user) {
+      await this.userRepository.delete(id);
+      this.logger.log(`Deleted: id=${id}`);
+      this.logger.log('Clear cache');
+      await this.clearCache();
+      this.logger.log('Cache cleared');
+      return;
+    }
+    this.logger.log(`User not found: id=${id}`);
+    throw new UserNotFoundException(id);
   }
 
   async clearCache() {

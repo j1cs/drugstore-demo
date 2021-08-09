@@ -10,4 +10,8 @@ export class User {
   age: number;
   @Column({ default: true })
   isActive: boolean;
+
+  toString(): string {
+    return JSON.stringify(this);
+  }
 }
