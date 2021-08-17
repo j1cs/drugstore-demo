@@ -18,13 +18,12 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const user: CreateUserDto = this.userRepository.create(createUserDto);
+    const user: User = this.userRepository.create(createUserDto);
     this.logger.log(`User created: createUserDto=${user}`);
-    this.logger.log('Clear cache');
-    await this.clearCache();
-    this.logger.log('Cache cleared');
     this.logger.log('Saving user');
-    return this.userRepository.save(user);
+    await this.userRepository.save(user);
+    await this.clearCache();
+    return user;
   }
 
   findAll(): Promise<User[]> {
@@ -32,8 +31,8 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  findOne(id: number): Promise<User> {
-    const user = this.userRepository.findOne(id);
+  async findOne(id: number): Promise<User> {
+    const user = await this.userRepository.findOne(id);
     if (user) {
       this.logger.log(`Got one user: id=${id}`);
       return user;
@@ -44,10 +43,9 @@ export class UserService {
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     await this.userRepository.update(id, updateUserDto);
-    const user = this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne(id);
     if (user) {
       this.logger.log(`Updated: id=${id}, updateUserDto=${updateUserDto}`);
-      this.logger.log('Clear cache');
       await this.clearCache();
       this.logger.log('Cache cleared');
       return user;
@@ -57,11 +55,10 @@ export class UserService {
   }
 
   async remove(id: number): Promise<void> {
-    const user = this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne(id);
     if (user) {
       await this.userRepository.delete(id);
       this.logger.log(`Deleted: id=${id}`);
-      this.logger.log('Clear cache');
       await this.clearCache();
       this.logger.log('Cache cleared');
       return;
