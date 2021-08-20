@@ -74,7 +74,7 @@ describe('UserController', () => {
   });
   describe('findOne', () => {
     it('should get a single user', async () => {
-      await expect(controller.findOne('1')).resolves.toEqual({
+      await expect(controller.findOne(1)).resolves.toEqual({
         id: 1,
         ...user,
       });
@@ -86,7 +86,7 @@ describe('UserController', () => {
         name: name,
         age: age,
       };
-      await expect(controller.update('1', updateUserDto)).resolves.toEqual({
+      await expect(controller.update(1, updateUserDto)).resolves.toEqual({
         id: 1,
         ...updateUserDto,
       });
@@ -94,13 +94,13 @@ describe('UserController', () => {
   });
   describe('remove', () => {
     it('should return that it deleted an user', async () => {
-      await expect(controller.remove('1')).resolves.toBeTruthy();
+      await expect(controller.remove(1)).resolves.toBeTruthy();
     });
     it('should return that it did not delete an user', async () => {
       const deleteSpy = jest.spyOn(service, 'remove').mockRejectedValue(() => {
         throw new UserNotFoundException(2);
       });
-      await expect(controller.remove('2')).rejects.toThrow(
+      await expect(controller.remove(2)).rejects.toThrow(
         'User with id 2 not found',
       );
       expect(deleteSpy).toBeCalledWith(2);

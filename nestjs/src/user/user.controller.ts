@@ -5,8 +5,10 @@ import {
   Controller,
   Delete,
   Get,
+  HttpStatus,
   Logger,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UseInterceptors,
@@ -43,7 +45,7 @@ export class UserController {
   @Get(':id')
   @UseInterceptors(CacheInterceptor)
   @CacheKey(GET_USERS_CACHE_KEY)
-  findOne(@Param('id') id: string): Promise<User> {
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<User> {
     this.logger.log(`Entering to findOne: id=${id}`);
     return this.userService.findOne(+id);
   }
@@ -51,7 +53,11 @@ export class UserController {
   @Patch(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
   update(
-    @Param('id') id: string,
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
     this.logger.log(
@@ -61,8 +67,14 @@ export class UserController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
+  remove(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ): Promise<void> {
     this.logger.log(`Entering to remove: id=${id}`);
-    return this.userService.remove(+id);
+    return this.userService.remove(id);
   }
 }

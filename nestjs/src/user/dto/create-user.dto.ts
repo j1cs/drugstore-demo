@@ -8,6 +8,11 @@ export class CreateUserDto {
   @IsNotEmpty()
   age: number;
 
+  constructor(name?: string, age?: number) {
+    this.name = name;
+    this.age = age;
+  }
+
   public toString = (): string => {
     return JSON.stringify(this);
   };
