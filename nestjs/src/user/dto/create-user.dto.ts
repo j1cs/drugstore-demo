@@ -13,7 +13,7 @@ export class CreateUserDto {
     this.age = age;
   }
 
-  public toString = (): string => {
+  public toString(): string {
     return JSON.stringify(this);
-  };
+  }
 }
