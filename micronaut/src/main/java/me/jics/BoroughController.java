@@ -2,7 +2,7 @@ package me.jics;
 
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package me.jics;
 
-import io.reactivex.Single;
+
+import io.reactivex.rxjava3.core.Single;
 
 import java.util.List;
 

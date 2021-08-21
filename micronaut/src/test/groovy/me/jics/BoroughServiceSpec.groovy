@@ -4,11 +4,11 @@ import groovy.util.logging.Slf4j
 import io.micronaut.core.util.StringUtils
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import io.reactivex.Flowable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import spock.lang.Specification
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 import java.time.LocalDate
 import java.time.LocalTime
 

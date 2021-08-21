@@ -3,7 +3,7 @@ package me.jics
 import io.micronaut.context.annotation.Requires
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
-import io.reactivex.Flowable
+import io.reactivex.rxjava3.core.Flowable
 
 import java.time.LocalDate
 import java.time.LocalTime

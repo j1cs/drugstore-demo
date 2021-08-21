@@ -1,13 +1,13 @@
 package me.jics;
 
 import io.micronaut.cache.annotation.Cacheable;
-import io.reactivex.Flowable;
-import io.reactivex.Single;
-import io.reactivex.functions.Function;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.functions.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.WordUtils;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import java.util.List;
 
 

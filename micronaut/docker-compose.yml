@@ -7,6 +7,19 @@ services:
       - "5005:5005"
     container_name: "micronaut"
     environment:
-      - MICRONAUT_ENVIRONMENTS=dev
+      - MICRONAUT_ENVIRONMENTS=
       - _JAVA_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       - READ_TIMEOUT='20s'
+      - REDIS_HOST=redis
+  redis:
+    image: "redis:alpine"
+    container_name: drugstore_redis
+    ports:
+      - "6379:6379"
+  redis-commander:
+    image: rediscommander/redis-commander
+    container_name: drugstore_redis_commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"

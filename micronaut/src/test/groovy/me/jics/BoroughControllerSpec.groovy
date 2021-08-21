@@ -3,17 +3,17 @@ package me.jics
 import groovy.util.logging.Slf4j
 import io.micronaut.core.type.Argument
 import io.micronaut.http.HttpRequest
-import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
+import io.micronaut.rxjava3.http.client.Rx3HttpClient
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import io.reactivex.Flowable
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @Slf4j
 @MicronautTest
@@ -23,7 +23,7 @@ class BoroughControllerSpec extends Specification {
     @AutoCleanup
     @Inject
     @Client("/borough")
-    RxHttpClient client
+    Rx3HttpClient client
 
     @Inject
     IBoroughService boroughService
