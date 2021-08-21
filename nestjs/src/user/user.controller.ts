@@ -63,7 +63,7 @@ export class UserController {
     this.logger.log(
       `Entering to update: id=${id}, updateUserDto=${updateUserDto}`,
     );
-    return this.userService.update(+id, updateUserDto);
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')

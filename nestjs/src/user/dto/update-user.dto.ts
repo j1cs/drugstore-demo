@@ -2,5 +2,7 @@ import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
-  toString = (): string => super.toString();
+  public toString = (): string => {
+    return JSON.stringify(this);
+  };
 }

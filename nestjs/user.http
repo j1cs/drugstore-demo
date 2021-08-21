@@ -11,4 +11,9 @@ Content-Type: application/json
 GET http://localhost:3000/user/8
 accept: application/json
 Content-Type: application/json
+###
+PATCH http://localhost:3000/user/1
+accept: application/json
+Content-Type: application/json
 
+{ "id":1, "name": "johny", "age": 10}
