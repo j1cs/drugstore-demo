@@ -1,14 +1,9 @@
-FROM ghcr.io/graalvm/graalvm-ce:java11-21.1.0 AS builder
-RUN gu install native-image
-WORKDIR /home/app
-COPY . /home/app
+FROM adoptopenjdk/maven-openjdk11 AS build
+COPY . /root
 ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
-RUN ./mvnw -T 1C package -Dpackaging=native-image -P prod
+RUN mvn -T 1C -f /root/pom.xml clean package -P prod
 
-
-FROM frolvlad/alpine-glibc:alpine-3.12
-RUN apk update && apk add libstdc++
-COPY --from=builder /home/app/target/micronaut /app/application
-
-EXPOSE 8080
-ENTRYPOINT ["/app/application"]
+FROM adoptopenjdk/openjdk11:alpine-slim
+COPY --from=build /root/target/micronaut-*.jar app.jar
+EXPOSE 8080 5005
+CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-jar", "app.jar"]
