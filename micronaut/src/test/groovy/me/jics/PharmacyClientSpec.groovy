@@ -15,7 +15,7 @@ class PharmacyClientSpec extends Specification {
 
     @Shared
     @Subject
-    PharmacyClient client = server.applicationContext.getBean(PharmacyClient);
+    PharmacyClient client = server.applicationContext.getBean(PharmacyOperations) as PharmacyClient
 
     void "Fetch all Pharmacies"() {
         when:

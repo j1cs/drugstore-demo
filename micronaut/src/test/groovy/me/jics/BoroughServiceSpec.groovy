@@ -20,7 +20,7 @@ class BoroughServiceSpec extends Specification {
     IBoroughService service
 
     @Inject
-    PharmacyClient client
+    PharmacyOperations client
 
     void "Retrieve All Pharmacies to get all Boroughs"() {
         given:
@@ -57,7 +57,7 @@ class BoroughServiceSpec extends Specification {
     }
 
     @MockBean(PharmacyClient)
-    PharmacyClient pharmacyClient() {
-        Mock(PharmacyClient)
+    PharmacyOperations pharmacyClient() {
+        Mock(PharmacyOperations)
     }
 }

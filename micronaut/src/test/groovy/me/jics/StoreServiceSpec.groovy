@@ -17,7 +17,7 @@ class StoreServiceSpec extends Specification {
     IStoreService service
 
     @Inject
-    PharmacyClient client
+    PharmacyOperations client
 
     void "Retrieve All Pharmacies"() {
         given:
@@ -27,6 +27,7 @@ class StoreServiceSpec extends Specification {
         List<Store> store = listSingle.blockingGet()
         then:
         client.retrieve() >> getMockPharmacies()
+        expect:
         store.find { it.id == mockPharmacy.getStoreId() }
     }
 
@@ -78,26 +79,11 @@ class StoreServiceSpec extends Specification {
     }
 
     static def getMockPharmacy() {
-        return Pharmacy.builder()
-                .date(LocalDate.now())
-                .storeId("1")
-                .storeName("store")
-                .boroughName("borough")
-                .locationName("location")
-                .storeAddress("address")
-                .openingHourOperation(LocalTime.now())
-                .closingHourOperation(LocalTime.now())
-                .storePhone("+56999999999")
-                .storeLat(0.0)
-                .storeLng(0.0)
-                .openingHourOperation(LocalTime.now())
-                .regionFk(1)
-                .boroughFk(1)
-                .build()
+        return MockPharmacyController.mock()
     }
 
     @MockBean(PharmacyClient)
-    PharmacyClient pharmacyClient() {
-        Mock(PharmacyClient)
+    PharmacyOperations pharmacyClient() {
+        Mock(PharmacyOperations)
     }
 }

@@ -5,7 +5,6 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CacheModule } from '../cache/cache.module';
 import { CACHE_MANAGER } from '@nestjs/common';
-import { UserNotFoundException } from './exceptions/user-not-found.exception';
 
 const name = 'john';
 const age = 12;

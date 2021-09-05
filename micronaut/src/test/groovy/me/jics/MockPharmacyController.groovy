@@ -13,7 +13,11 @@ import java.time.LocalTime
 class MockPharmacyController {
     @Get
     Flowable<Pharmacy> index() {
-        return Flowable.just(Pharmacy.builder()
+        return Flowable.just(mock())
+    }
+
+    static Pharmacy mock() {
+        return Pharmacy.builder()
                 .date(LocalDate.now())
                 .storeId('1')
                 .storeName('store')
@@ -28,7 +32,6 @@ class MockPharmacyController {
                 .openingHourOperation(LocalTime.now())
                 .regionFk(1)
                 .boroughFk(1)
-                .build())
+                .build();
     }
-
 }
